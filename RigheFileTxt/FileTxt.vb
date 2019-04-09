@@ -5,7 +5,7 @@
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
         Dim ext As String = Me.txtEstensione.Text
-        ext = ext.TrimStart("*")
+        ext = ext.TrimStart("*"c)
 
         ext = If(ext.StartsWith("."), "", ".") + ext
 
