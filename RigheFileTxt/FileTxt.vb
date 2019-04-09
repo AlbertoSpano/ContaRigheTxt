@@ -1,11 +1,16 @@
 ﻿Public Class FileTxt
 
+
+
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
         Dim ext As String = Me.txtEstensione.Text
         ext = ext.TrimStart("*")
 
         ext = If(ext.StartsWith("."), "", ".") + ext
+
+        My.Settings.Estensione = ext
+        My.Settings.Save()
 
         Me.OpenFileDialog1.DefaultExt = ext
         Me.OpenFileDialog1.FileName = "*" + ext
@@ -50,6 +55,12 @@
 
 
         Me.Cursor = Cursors.Default
+
+    End Sub
+
+    Private Sub FileTxt_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        Me.txtEstensione.Text = My.Settings.Estensione
 
     End Sub
 
