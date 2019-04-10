@@ -57,12 +57,24 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("*.txt")>  _
-        Public Property Estensione() As String
+        Public Property Filtro() As String
             Get
-                Return CType(Me("Estensione"),String)
+                Return CType(Me("Filtro"),String)
             End Get
             Set
-                Me("Estensione") = value
+                Me("Filtro") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\")>  _
+        Public Property RootFolder() As String
+            Get
+                Return CType(Me("RootFolder"),String)
+            End Get
+            Set
+                Me("RootFolder") = value
             End Set
         End Property
     End Class

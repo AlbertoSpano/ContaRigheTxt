@@ -1,32 +1,75 @@
 ﻿Public Class FileTxt
 
+    Public Class Riga
+        Public Property Cartella As String
+        Public Property NomeFile As String
+        Public Property Righe As Integer
+    End Class
 
+    Private pattern As String
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
-        Dim ext As String = Me.txtEstensione.Text
-        ext = ext.TrimStart("*"c)
+        pattern = txtFiltro.Text
 
-        ext = If(ext.StartsWith("."), "", ".") + ext
-
-        My.Settings.Estensione = ext
+        My.Settings.Filtro = Me.txtFiltro.Text
         My.Settings.Save()
 
-        Me.OpenFileDialog1.DefaultExt = ext
-        Me.OpenFileDialog1.FileName = "*" + ext
-        Me.OpenFileDialog1.Filter = String.Format("File (*{0})|{0}", ext)
+        Me.FolderBrowserDialog1.ShowNewFolderButton = False
 
-        If Me.OpenFileDialog1.ShowDialog = DialogResult.OK Then
+        If Me.FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
 
+            ' ... memorizza la cartella radice selezionata
+            My.Settings.RootFolder = Me.FolderBrowserDialog1.SelectedPath
+            My.Settings.Save()
+
+            ' ...
+            Me.txtFolder.Text = My.Settings.RootFolder
+
+            ' ... elimina righe precedente selezione
             Me.grdFiles.Rows.Clear()
 
-            For Each f As String In Me.OpenFileDialog1.FileNames
-                Me.grdFiles.Rows.Add(IO.Path.GetFileName(f), IO.File.ReadAllLines(f).Count, f)
+            ' ... inizializza elenco
+            Dim elenco As New List(Of String)
+
+            ' ... seleziona i file
+            ContaRighe(Me.FolderBrowserDialog1.SelectedPath, elenco)
+
+            ' ... conta le righe dei file selezionati
+            Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
+
+            ' ... raggruppa
+            If chkGroup.Checked Then
+                g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).ToList
+            End If
+
+            ' ... totali
+            g.Add(New Riga() With {.Cartella = "", .NomeFile = "Totale:", .Righe = g.Sum(Function(x) x.Righe)})
+
+            ' ... ricopia i file nella griglia
+            For Each f As Riga In g
+                Me.grdFiles.Rows.Add(IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
             Next
 
+            ' ... abilita l'export
             Me.btnEsporta.Enabled = grdFiles.Rows.Count > 0
 
+            ' ... nessun file
+            If grdFiles.Rows.Count = 0 Then MsgBox("Nessun file trovato!")
+
         End If
+
+    End Sub
+
+    Private Sub ContaRighe(folder As String, elenco As List(Of String))
+
+        For Each f As String In IO.Directory.EnumerateFiles(folder, pattern)
+            elenco.Add(f)
+        Next
+
+        For Each d As String In IO.Directory.EnumerateDirectories(folder)
+            ContaRighe(d, elenco)
+        Next
 
     End Sub
 
@@ -35,18 +78,27 @@
         Me.Cursor = Cursors.WaitCursor
 
         Try
-
+            ' ... nome file temporaneo export
             Dim ftmp As String = IO.Path.Combine(System.IO.Path.GetTempPath(), IO.Path.GetRandomFileName + ".csv")
 
             Dim result As New List(Of String)
-            result.Add(String.Format("{0}{1}{2}{1}{3}", "Nome file", vbTab, "Righe", "Percorso completo"))
+
+            ' ... intestazioni colonne
+            result.Add(String.Format("{0}{1}{2}{1}{3}", "Cartella", vbTab, "Nome file", "Righe"))
 
             For Each d As DataGridViewRow In grdFiles.Rows
-                result.Add(String.Format("{0}{1}{2}{1}{3}", d.Cells(0).Value, vbTab, d.Cells(1).Value, d.Cells(2).Value))
+                ' ... cartella
+                Dim c As String = d.Cells(0).Value.ToString
+                ' ... se il nome cartella è un numero antepone un apice
+                If IsNumeric(c) Then c = "'" + c
+                ' ... riga excel
+                result.Add(String.Format("{0}{1}{2}{1}{3}", c, vbTab, d.Cells(1).Value, d.Cells(2).Value))
             Next
 
+            ' ... scrive nel file
             IO.File.WriteAllLines(ftmp, result.ToArray)
 
+            ' ... apre il file
             System.Diagnostics.Process.Start(ftmp)
 
         Catch ex As Exception
@@ -60,8 +112,13 @@
 
     Private Sub FileTxt_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        Me.txtEstensione.Text = My.Settings.Estensione
+        Me.txtFiltro.Text = My.Settings.Filtro
+        Me.FolderBrowserDialog1.SelectedPath = My.Settings.RootFolder
 
+    End Sub
+
+    Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs) Handles chkGroup.CheckedChanged
+        grdFiles.Rows.Clear()
     End Sub
 
 End Class
