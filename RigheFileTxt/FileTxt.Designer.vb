@@ -34,6 +34,8 @@ Partial Class FileTxt
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.txtFolder = New System.Windows.Forms.TextBox()
         Me.chkGroup = New System.Windows.Forms.CheckBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtPrefisso = New System.Windows.Forms.TextBox()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -142,11 +144,32 @@ Partial Class FileTxt
         Me.chkGroup.Text = "totali per cartella"
         Me.chkGroup.UseVisualStyleBackColor = True
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(29, 62)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(154, 17)
+        Me.Label2.TabIndex = 7
+        Me.Label2.Text = "Prefisso nomi numerici:"
+        '
+        'txtPrefisso
+        '
+        Me.txtPrefisso.Location = New System.Drawing.Point(205, 59)
+        Me.txtPrefisso.MaxLength = 1
+        Me.txtPrefisso.Name = "txtPrefisso"
+        Me.txtPrefisso.Size = New System.Drawing.Size(66, 23)
+        Me.txtPrefisso.TabIndex = 8
+        Me.txtPrefisso.Text = "L"
+        Me.txtPrefisso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(922, 525)
+        Me.Controls.Add(Me.txtPrefisso)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.chkGroup)
         Me.Controls.Add(Me.txtFolder)
         Me.Controls.Add(Me.btnEsporta)
@@ -176,4 +199,6 @@ Partial Class FileTxt
     Friend WithEvents FullPath As DataGridViewTextBoxColumn
     Friend WithEvents Righe As DataGridViewTextBoxColumn
     Friend WithEvents chkGroup As CheckBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents txtPrefisso As TextBox
 End Class

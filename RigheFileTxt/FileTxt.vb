@@ -1,4 +1,7 @@
-﻿Public Class FileTxt
+﻿Imports Microsoft.Office.Interop
+Imports OfficeOpenXml
+
+Public Class FileTxt
 
     Public Class Riga
         Public Property Cartella As String
@@ -19,8 +22,9 @@
 
         If Me.FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
 
-            ' ... memorizza la cartella radice selezionata
+            ' ... memorizza la cartella radice selezionata e prefisso
             My.Settings.RootFolder = Me.FolderBrowserDialog1.SelectedPath
+            My.Settings.Prefisso = Me.txtPrefisso.Text
             My.Settings.Save()
 
             ' ...
@@ -79,27 +83,46 @@
 
         Try
             ' ... nome file temporaneo export
-            Dim ftmp As String = IO.Path.Combine(System.IO.Path.GetTempPath(), IO.Path.GetRandomFileName + ".csv")
+            Dim matrice As String = IO.Path.Combine(System.IO.Path.GetTempPath(), IO.Path.GetRandomFileName)
+            Dim csv As String = matrice + ".csv"
+            Dim xls As String = matrice + ".xls"
 
             Dim result As New List(Of String)
 
             ' ... intestazioni colonne
-            result.Add(String.Format("{0}{1}{2}{1}{3}", "Cartella", vbTab, "Nome file", "Righe"))
+            result.Add(String.Format("{0}{1}{2}", "Cartella", vbTab, "Righe"))
 
             For Each d As DataGridViewRow In grdFiles.Rows
                 ' ... cartella
                 Dim c As String = d.Cells(0).Value.ToString
                 ' ... se il nome cartella è un numero antepone un apice
-                If IsNumeric(c) Then c = "'" + c
+                If IsNumeric(c) Then c = My.Settings.Prefisso + c
                 ' ... riga excel
-                result.Add(String.Format("{0}{1}{2}{1}{3}", c, vbTab, d.Cells(1).Value, d.Cells(2).Value))
+                result.Add(String.Format("{0}{1}{2}", c, vbTab, d.Cells(2).Value))
             Next
 
             ' ... scrive nel file
-            IO.File.WriteAllLines(ftmp, result.ToArray)
+            IO.File.WriteAllLines(csv, result.ToArray)
+
+            ' ... crea file di excel
+            Using ex As New OfficeOpenXml.ExcelPackage(New IO.FileInfo(xls))
+
+                Dim ExcelTextFormat As New ExcelTextFormat()
+                ExcelTextFormat.Delimiter = Chr(9)
+
+                Dim worksheet As ExcelWorksheet = ex.Workbook.Worksheets.Add("Foglio 1")
+
+                worksheet.Cells("A1").LoadFromText(New IO.FileInfo(csv), ExcelTextFormat, OfficeOpenXml.Table.TableStyles.Light9, True)
+
+                worksheet.Cells(worksheet.Dimension.Address).AutoFitColumns()
+
+                ex.Save()
+
+            End Using
+
 
             ' ... apre il file
-            System.Diagnostics.Process.Start(ftmp)
+            System.Diagnostics.Process.Start(xls)
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -114,7 +137,7 @@
 
         Me.txtFiltro.Text = My.Settings.Filtro
         Me.FolderBrowserDialog1.SelectedPath = My.Settings.RootFolder
-
+        Me.txtPrefisso.Text = My.Settings.Prefisso
     End Sub
 
     Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs) Handles chkGroup.CheckedChanged
