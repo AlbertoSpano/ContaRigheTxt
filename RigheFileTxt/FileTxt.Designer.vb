@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FileTxt
     Inherits System.Windows.Forms.Form
 
     'Form esegue l'override del metodo Dispose per pulire l'elenco dei componenti.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,24 +20,25 @@ Partial Class FileTxt
     'NOTA: la procedura che segue è richiesta da Progettazione Windows Form
     'Può essere modificata in Progettazione Windows Form.  
     'Non modificarla mediante l'editor del codice.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
+        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnScegli = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFiltro = New System.Windows.Forms.TextBox()
         Me.btnEsporta = New System.Windows.Forms.Button()
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
         Me.txtFolder = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtPrefisso = New System.Windows.Forms.TextBox()
         Me.rbSingolo = New System.Windows.Forms.RadioButton()
         Me.rbPercorsoCartella = New System.Windows.Forms.RadioButton()
         Me.rbNomeCartella = New System.Windows.Forms.RadioButton()
-        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.bw = New System.ComponentModel.BackgroundWorker()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -53,11 +54,36 @@ Partial Class FileTxt
         Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.NomeFile, Me.FullPath, Me.Righe})
         Me.grdFiles.Location = New System.Drawing.Point(32, 147)
         Me.grdFiles.Margin = New System.Windows.Forms.Padding(4)
+        Me.grdFiles.MultiSelect = False
         Me.grdFiles.Name = "grdFiles"
         Me.grdFiles.ReadOnly = True
+        Me.grdFiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdFiles.Size = New System.Drawing.Size(865, 359)
         Me.grdFiles.TabIndex = 0
+        '
+        'NomeFile
+        '
+        Me.NomeFile.HeaderText = "Cartella"
+        Me.NomeFile.Name = "NomeFile"
+        Me.NomeFile.ReadOnly = True
+        Me.NomeFile.Width = 500
+        '
+        'FullPath
+        '
+        Me.FullPath.HeaderText = "Nome file"
+        Me.FullPath.Name = "FullPath"
+        Me.FullPath.ReadOnly = True
+        Me.FullPath.Width = 200
+        '
+        'Righe
+        '
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle4.Format = "N"
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Righe.HeaderText = "Righe"
+        Me.Righe.Name = "Righe"
+        Me.Righe.ReadOnly = True
         '
         'btnScegli
         '
@@ -162,28 +188,8 @@ Partial Class FileTxt
         Me.rbNomeCartella.Text = "Totali per nome cartella"
         Me.rbNomeCartella.UseVisualStyleBackColor = True
         '
-        'NomeFile
+        'bw
         '
-        Me.NomeFile.HeaderText = "Cartella"
-        Me.NomeFile.Name = "NomeFile"
-        Me.NomeFile.ReadOnly = True
-        Me.NomeFile.Width = 500
-        '
-        'FullPath
-        '
-        Me.FullPath.HeaderText = "Nome file"
-        Me.FullPath.Name = "FullPath"
-        Me.FullPath.ReadOnly = True
-        Me.FullPath.Width = 200
-        '
-        'Righe
-        '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle1.Format = "N"
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Righe.HeaderText = "Righe"
-        Me.Righe.Name = "Righe"
-        Me.Righe.ReadOnly = True
         '
         'FileTxt
         '
@@ -217,7 +223,7 @@ Partial Class FileTxt
     Friend WithEvents Label1 As Label
     Friend WithEvents txtFiltro As TextBox
     Friend WithEvents btnEsporta As Button
-    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents fbd As FolderBrowserDialog
     Friend WithEvents txtFolder As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtPrefisso As TextBox
@@ -227,4 +233,5 @@ Partial Class FileTxt
     Friend WithEvents NomeFile As DataGridViewTextBoxColumn
     Friend WithEvents FullPath As DataGridViewTextBoxColumn
     Friend WithEvents Righe As DataGridViewTextBoxColumn
+    Friend WithEvents bw As System.ComponentModel.BackgroundWorker
 End Class

@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Office.Interop
+﻿Imports System.ComponentModel
+Imports Microsoft.Office.Interop
 Imports OfficeOpenXml
 
 Public Class FileTxt
@@ -18,55 +19,26 @@ Public Class FileTxt
         My.Settings.Filtro = Me.txtFiltro.Text
         My.Settings.Save()
 
-        Me.FolderBrowserDialog1.ShowNewFolderButton = False
+        Me.fbd.ShowNewFolderButton = False
 
-        If Me.FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
-
-            Me.Cursor = Cursors.WaitCursor
+        If Me.fbd.ShowDialog = DialogResult.OK Then
 
             ' ... memorizza la cartella radice selezionata e prefisso
-            My.Settings.RootFolder = Me.FolderBrowserDialog1.SelectedPath
+            My.Settings.RootFolder = Me.fbd.SelectedPath
             My.Settings.Prefisso = Me.txtPrefisso.Text
             My.Settings.Save()
 
             ' ...
             Me.txtFolder.Text = My.Settings.RootFolder
 
+            ' ...
+            Me.Enabled = False
+
             ' ... elimina righe precedente selezione
             Me.grdFiles.Rows.Clear()
 
-            ' ... inizializza elenco
-            Dim elenco As New List(Of String)
-
-            ' ... seleziona i file
-            ContaRighe(Me.FolderBrowserDialog1.SelectedPath, elenco)
-
-            ' ... conta le righe dei file selezionati
-            Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
-
-            ' ... raggruppa
-            If rbPercorsoCartella.Checked Then
-                g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
-            ElseIf rbNomeCartella.Checked Then
-                g = g.GroupBy(Function(x) IO.Path.GetFileName(x.Cartella)).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
-            End If
-
-            ' ... totali
-            g.Add(New Riga() With {.Cartella = "", .NomeFile = "Totale:", .Righe = g.Sum(Function(x) x.Righe)})
-
-            ' ... ricopia i file nella griglia
-            For Each f As Riga In g
-                Me.grdFiles.Rows.Add(IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
-            Next
-
             ' ...
-            Me.Cursor = Cursors.Default
-
-            ' ... abilita l'export
-            Me.btnEsporta.Enabled = grdFiles.Rows.Count > 0
-
-            ' ... nessun file
-            If grdFiles.Rows.Count = 0 Then MsgBox("Nessun file trovato!")
+            bw.RunWorkerAsync(Me.txtFolder.Text)
 
         End If
 
@@ -143,12 +115,55 @@ Public Class FileTxt
     Private Sub FileTxt_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         Me.txtFiltro.Text = My.Settings.Filtro
-        Me.FolderBrowserDialog1.SelectedPath = My.Settings.RootFolder
+        Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
     End Sub
 
     Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs)
         grdFiles.Rows.Clear()
+    End Sub
+
+    Private Sub bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
+
+        ' ... inizializza elenco
+        Dim elenco As New List(Of String)
+
+        ' ... seleziona i file
+        ContaRighe(e.Argument.ToString, elenco)
+
+        ' ... conta le righe dei file selezionati
+        Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
+
+        ' ... raggruppa
+        If rbPercorsoCartella.Checked Then
+            g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
+        ElseIf rbNomeCartella.Checked Then
+            g = g.GroupBy(Function(x) IO.Path.GetFileName(x.Cartella)).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
+        End If
+
+        ' ... totali
+        g.Add(New Riga() With {.Cartella = "", .NomeFile = "Totale:", .Righe = g.Sum(Function(x) x.Righe)})
+
+        e.Result = g
+
+    End Sub
+
+    Private Sub bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
+
+        ' ... ricopia i file nella griglia
+        For Each f As Riga In CType(e.Result, List(Of Riga))
+            Me.grdFiles.Rows.Add(IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
+        Next
+
+        ' ...
+        Me.Enabled = True
+
+        ' ... abilita l'export
+        Me.btnEsporta.Enabled = grdFiles.Rows.Count > 0
+
+        ' ... nessun file
+        If grdFiles.Rows.Count = 0 Then MsgBox("Nessun file trovato!")
+
     End Sub
 
 End Class
