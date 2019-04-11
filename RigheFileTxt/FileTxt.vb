@@ -22,6 +22,8 @@ Public Class FileTxt
 
         If Me.FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
 
+            Me.Cursor = Cursors.WaitCursor
+
             ' ... memorizza la cartella radice selezionata e prefisso
             My.Settings.RootFolder = Me.FolderBrowserDialog1.SelectedPath
             My.Settings.Prefisso = Me.txtPrefisso.Text
@@ -43,8 +45,10 @@ Public Class FileTxt
             Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
 
             ' ... raggruppa
-            If chkGroup.Checked Then
-                g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).ToList
+            If rbPercorsoCartella.Checked Then
+                g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
+            ElseIf rbNomeCartella.Checked Then
+                g = g.GroupBy(Function(x) IO.Path.GetFileName(x.Cartella)).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
             End If
 
             ' ... totali
@@ -54,6 +58,9 @@ Public Class FileTxt
             For Each f As Riga In g
                 Me.grdFiles.Rows.Add(IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
             Next
+
+            ' ...
+            Me.Cursor = Cursors.Default
 
             ' ... abilita l'export
             Me.btnEsporta.Enabled = grdFiles.Rows.Count > 0
@@ -140,7 +147,7 @@ Public Class FileTxt
         Me.txtPrefisso.Text = My.Settings.Prefisso
     End Sub
 
-    Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs) Handles chkGroup.CheckedChanged
+    Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs)
         grdFiles.Rows.Clear()
     End Sub
 

@@ -24,18 +24,20 @@ Partial Class FileTxt
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
-        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnScegli = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFiltro = New System.Windows.Forms.TextBox()
         Me.btnEsporta = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.txtFolder = New System.Windows.Forms.TextBox()
-        Me.chkGroup = New System.Windows.Forms.CheckBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtPrefisso = New System.Windows.Forms.TextBox()
+        Me.rbSingolo = New System.Windows.Forms.RadioButton()
+        Me.rbPercorsoCartella = New System.Windows.Forms.RadioButton()
+        Me.rbNomeCartella = New System.Windows.Forms.RadioButton()
+        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -49,35 +51,13 @@ Partial Class FileTxt
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.NomeFile, Me.FullPath, Me.Righe})
-        Me.grdFiles.Location = New System.Drawing.Point(32, 123)
+        Me.grdFiles.Location = New System.Drawing.Point(32, 147)
         Me.grdFiles.Margin = New System.Windows.Forms.Padding(4)
         Me.grdFiles.Name = "grdFiles"
         Me.grdFiles.ReadOnly = True
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdFiles.Size = New System.Drawing.Size(865, 383)
+        Me.grdFiles.Size = New System.Drawing.Size(865, 359)
         Me.grdFiles.TabIndex = 0
-        '
-        'NomeFile
-        '
-        Me.NomeFile.HeaderText = "Cartella"
-        Me.NomeFile.Name = "NomeFile"
-        Me.NomeFile.ReadOnly = True
-        Me.NomeFile.Width = 500
-        '
-        'FullPath
-        '
-        Me.FullPath.HeaderText = "Nome file"
-        Me.FullPath.Name = "FullPath"
-        Me.FullPath.ReadOnly = True
-        Me.FullPath.Width = 200
-        '
-        'Righe
-        '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Righe.HeaderText = "Righe"
-        Me.Righe.Name = "Righe"
-        Me.Righe.ReadOnly = True
         '
         'btnScegli
         '
@@ -124,25 +104,12 @@ Partial Class FileTxt
         '
         Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(32, 93)
+        Me.txtFolder.Location = New System.Drawing.Point(32, 117)
         Me.txtFolder.MaxLength = 12
         Me.txtFolder.Name = "txtFolder"
         Me.txtFolder.ReadOnly = True
         Me.txtFolder.Size = New System.Drawing.Size(864, 23)
         Me.txtFolder.TabIndex = 5
-        '
-        'chkGroup
-        '
-        Me.chkGroup.AutoSize = True
-        Me.chkGroup.Checked = True
-        Me.chkGroup.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkGroup.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.chkGroup.Location = New System.Drawing.Point(301, 29)
-        Me.chkGroup.Name = "chkGroup"
-        Me.chkGroup.Size = New System.Drawing.Size(139, 21)
-        Me.chkGroup.TabIndex = 6
-        Me.chkGroup.Text = "totali per cartella"
-        Me.chkGroup.UseVisualStyleBackColor = True
         '
         'Label2
         '
@@ -163,14 +130,71 @@ Partial Class FileTxt
         Me.txtPrefisso.Text = "L"
         Me.txtPrefisso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
+        'rbSingolo
+        '
+        Me.rbSingolo.AutoSize = True
+        Me.rbSingolo.Location = New System.Drawing.Point(299, 26)
+        Me.rbSingolo.Name = "rbSingolo"
+        Me.rbSingolo.Size = New System.Drawing.Size(157, 21)
+        Me.rbSingolo.TabIndex = 9
+        Me.rbSingolo.Text = "Totali per singolo file"
+        Me.rbSingolo.UseVisualStyleBackColor = True
+        '
+        'rbPercorsoCartella
+        '
+        Me.rbPercorsoCartella.AutoSize = True
+        Me.rbPercorsoCartella.Location = New System.Drawing.Point(299, 54)
+        Me.rbPercorsoCartella.Name = "rbPercorsoCartella"
+        Me.rbPercorsoCartella.Size = New System.Drawing.Size(198, 21)
+        Me.rbPercorsoCartella.TabIndex = 10
+        Me.rbPercorsoCartella.Text = "Totali per percorso cartella"
+        Me.rbPercorsoCartella.UseVisualStyleBackColor = True
+        '
+        'rbNomeCartella
+        '
+        Me.rbNomeCartella.AutoSize = True
+        Me.rbNomeCartella.Checked = True
+        Me.rbNomeCartella.Location = New System.Drawing.Point(299, 81)
+        Me.rbNomeCartella.Name = "rbNomeCartella"
+        Me.rbNomeCartella.Size = New System.Drawing.Size(180, 21)
+        Me.rbNomeCartella.TabIndex = 11
+        Me.rbNomeCartella.TabStop = True
+        Me.rbNomeCartella.Text = "Totali per nome cartella"
+        Me.rbNomeCartella.UseVisualStyleBackColor = True
+        '
+        'NomeFile
+        '
+        Me.NomeFile.HeaderText = "Cartella"
+        Me.NomeFile.Name = "NomeFile"
+        Me.NomeFile.ReadOnly = True
+        Me.NomeFile.Width = 500
+        '
+        'FullPath
+        '
+        Me.FullPath.HeaderText = "Nome file"
+        Me.FullPath.Name = "FullPath"
+        Me.FullPath.ReadOnly = True
+        Me.FullPath.Width = 200
+        '
+        'Righe
+        '
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "N"
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Righe.HeaderText = "Righe"
+        Me.Righe.Name = "Righe"
+        Me.Righe.ReadOnly = True
+        '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(922, 525)
+        Me.Controls.Add(Me.rbNomeCartella)
+        Me.Controls.Add(Me.rbPercorsoCartella)
+        Me.Controls.Add(Me.rbSingolo)
         Me.Controls.Add(Me.txtPrefisso)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.chkGroup)
         Me.Controls.Add(Me.txtFolder)
         Me.Controls.Add(Me.btnEsporta)
         Me.Controls.Add(Me.txtFiltro)
@@ -195,10 +219,12 @@ Partial Class FileTxt
     Friend WithEvents btnEsporta As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents txtFolder As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents txtPrefisso As TextBox
+    Friend WithEvents rbSingolo As RadioButton
+    Friend WithEvents rbPercorsoCartella As RadioButton
+    Friend WithEvents rbNomeCartella As RadioButton
     Friend WithEvents NomeFile As DataGridViewTextBoxColumn
     Friend WithEvents FullPath As DataGridViewTextBoxColumn
     Friend WithEvents Righe As DataGridViewTextBoxColumn
-    Friend WithEvents chkGroup As CheckBox
-    Friend WithEvents Label2 As Label
-    Friend WithEvents txtPrefisso As TextBox
 End Class
