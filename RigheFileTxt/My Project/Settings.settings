@@ -11,5 +11,11 @@
     <Setting Name="Prefisso" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Dalle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">11:00</Value>
+    </Setting>
+    <Setting Name="Alle" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

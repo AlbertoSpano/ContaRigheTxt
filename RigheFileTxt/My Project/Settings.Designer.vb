@@ -89,6 +89,30 @@ Namespace My
                 Me("Prefisso") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("11:00")>  _
+        Public Property Dalle() As String
+            Get
+                Return CType(Me("Dalle"),String)
+            End Get
+            Set
+                Me("Dalle") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Alle() As String
+            Get
+                Return CType(Me("Alle"),String)
+            End Get
+            Set
+                Me("Alle") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

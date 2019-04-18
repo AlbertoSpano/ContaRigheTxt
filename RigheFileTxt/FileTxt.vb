@@ -10,6 +10,12 @@ Public Class FileTxt
         Public Property Righe As Integer
     End Class
 
+    Public Class Arg
+        Public Property PercorsoIniziale As String
+        Public Property Dalle As Object
+        Public Property Alle As Object
+    End Class
+
     Private pattern As String
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
@@ -17,6 +23,8 @@ Public Class FileTxt
         pattern = txtFiltro.Text
 
         My.Settings.Filtro = Me.txtFiltro.Text
+        My.Settings.Dalle = If(Me.chkDalle.Checked, Me.txtDalle.Text, Nothing)
+        My.Settings.Alle = If(Me.chkAlle.Checked, Me.txtAlle.Text, Nothing)
         My.Settings.Save()
 
         Me.fbd.ShowNewFolderButton = False
@@ -37,8 +45,14 @@ Public Class FileTxt
             ' ... elimina righe precedente selezione
             Me.grdFiles.Rows.Clear()
 
+            ' ... argomento per backgroundworker
+            Dim argument As New Arg
+            argument.PercorsoIniziale = Me.txtFolder.Text
+            If chkDalle.Checked Then argument.Dalle = txtDalle.Value
+            If chkAlle.Checked Then argument.Alle = txtAlle.Value
+
             ' ...
-            bw.RunWorkerAsync(Me.txtFolder.Text)
+            bw.RunWorkerAsync(argument)
 
         End If
 
@@ -117,6 +131,18 @@ Public Class FileTxt
         Me.txtFiltro.Text = My.Settings.Filtro
         Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
+        If String.IsNullOrEmpty(My.Settings.Dalle) Then
+            chkDalle.Checked = False
+        Else
+            chkDalle.Checked = True
+            txtDalle.Value = CDate(String.Format("{0:dd/MM/yyyy} {1} ", Today, My.Settings.Dalle))
+        End If
+        If String.IsNullOrEmpty(My.Settings.Alle) Then
+            chkAlle.Checked = False
+        Else
+            chkAlle.Checked = True
+            txtAlle.Value = CDate(String.Format("{0:dd/MM/yyyy} {1} ", Today, My.Settings.Alle))
+        End If
     End Sub
 
     Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs)
@@ -125,11 +151,18 @@ Public Class FileTxt
 
     Private Sub bw_DoWork(sender As Object, e As DoWorkEventArgs) Handles bw.DoWork
 
+        ' ... argument
+        Dim argument As Arg = CType(e.Argument, Arg)
+
         ' ... inizializza elenco
         Dim elenco As New List(Of String)
 
         ' ... seleziona i file
-        ContaRighe(e.Argument.ToString, elenco)
+        ContaRighe(argument.PercorsoIniziale, elenco)
+
+        ' ... filtra per orario
+        If argument.Dalle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay >= CDate(argument.Dalle).TimeOfDay).ToList
+        If argument.Alle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay <= CDate(argument.Alle).TimeOfDay).ToList
 
         ' ... conta le righe dei file selezionati
         Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
@@ -164,6 +197,14 @@ Public Class FileTxt
         ' ... nessun file
         If grdFiles.Rows.Count = 0 Then MsgBox("Nessun file trovato!")
 
+    End Sub
+
+    Private Sub chkDalle_CheckedChanged(sender As Object, e As EventArgs) Handles chkDalle.CheckedChanged
+        txtDalle.Visible = CType(sender, CheckBox).Checked
+    End Sub
+
+    Private Sub chkAlle_CheckedChanged(sender As Object, e As EventArgs) Handles chkAlle.CheckedChanged
+        txtAlle.Visible = CType(sender, CheckBox).Checked
     End Sub
 
 End Class

@@ -39,7 +39,15 @@ Partial Class FileTxt
         Me.rbPercorsoCartella = New System.Windows.Forms.RadioButton()
         Me.rbNomeCartella = New System.Windows.Forms.RadioButton()
         Me.bw = New System.ComponentModel.BackgroundWorker()
+        Me.grpOrario = New System.Windows.Forms.GroupBox()
+        Me.txtDalle = New System.Windows.Forms.DateTimePicker()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtAlle = New System.Windows.Forms.DateTimePicker()
+        Me.chkDalle = New System.Windows.Forms.CheckBox()
+        Me.chkAlle = New System.Windows.Forms.CheckBox()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpOrario.SuspendLayout()
         Me.SuspendLayout()
         '
         'grdFiles
@@ -52,14 +60,14 @@ Partial Class FileTxt
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.NomeFile, Me.FullPath, Me.Righe})
-        Me.grdFiles.Location = New System.Drawing.Point(32, 147)
+        Me.grdFiles.Location = New System.Drawing.Point(32, 169)
         Me.grdFiles.Margin = New System.Windows.Forms.Padding(4)
         Me.grdFiles.MultiSelect = False
         Me.grdFiles.Name = "grdFiles"
         Me.grdFiles.ReadOnly = True
         Me.grdFiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdFiles.Size = New System.Drawing.Size(865, 359)
+        Me.grdFiles.Size = New System.Drawing.Size(906, 337)
         Me.grdFiles.TabIndex = 0
         '
         'NomeFile
@@ -87,11 +95,12 @@ Partial Class FileTxt
         '
         'btnScegli
         '
+        Me.btnScegli.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnScegli.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnScegli.Location = New System.Drawing.Point(516, 26)
+        Me.btnScegli.Location = New System.Drawing.Point(783, 23)
         Me.btnScegli.Margin = New System.Windows.Forms.Padding(4)
         Me.btnScegli.Name = "btnScegli"
-        Me.btnScegli.Size = New System.Drawing.Size(186, 30)
+        Me.btnScegli.Size = New System.Drawing.Size(154, 30)
         Me.btnScegli.TabIndex = 1
         Me.btnScegli.Text = "Scegli ..."
         Me.btnScegli.UseVisualStyleBackColor = True
@@ -116,12 +125,13 @@ Partial Class FileTxt
         '
         'btnEsporta
         '
+        Me.btnEsporta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnEsporta.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnEsporta.Enabled = False
-        Me.btnEsporta.Location = New System.Drawing.Point(710, 26)
+        Me.btnEsporta.Location = New System.Drawing.Point(783, 72)
         Me.btnEsporta.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEsporta.Name = "btnEsporta"
-        Me.btnEsporta.Size = New System.Drawing.Size(186, 30)
+        Me.btnEsporta.Size = New System.Drawing.Size(154, 30)
         Me.btnEsporta.TabIndex = 4
         Me.btnEsporta.Text = "Esporta elenco"
         Me.btnEsporta.UseVisualStyleBackColor = True
@@ -130,11 +140,11 @@ Partial Class FileTxt
         '
         Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(32, 117)
+        Me.txtFolder.Location = New System.Drawing.Point(33, 139)
         Me.txtFolder.MaxLength = 12
         Me.txtFolder.Name = "txtFolder"
         Me.txtFolder.ReadOnly = True
-        Me.txtFolder.Size = New System.Drawing.Size(864, 23)
+        Me.txtFolder.Size = New System.Drawing.Size(905, 23)
         Me.txtFolder.TabIndex = 5
         '
         'Label2
@@ -191,11 +201,89 @@ Partial Class FileTxt
         'bw
         '
         '
+        'grpOrario
+        '
+        Me.grpOrario.Controls.Add(Me.chkAlle)
+        Me.grpOrario.Controls.Add(Me.chkDalle)
+        Me.grpOrario.Controls.Add(Me.txtAlle)
+        Me.grpOrario.Controls.Add(Me.txtDalle)
+        Me.grpOrario.Controls.Add(Me.Label4)
+        Me.grpOrario.Controls.Add(Me.Label3)
+        Me.grpOrario.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.grpOrario.Location = New System.Drawing.Point(520, 26)
+        Me.grpOrario.Name = "grpOrario"
+        Me.grpOrario.Size = New System.Drawing.Size(256, 107)
+        Me.grpOrario.TabIndex = 12
+        Me.grpOrario.TabStop = False
+        Me.grpOrario.Text = "Solo file creati nella fascia:"
+        '
+        'txtDalle
+        '
+        Me.txtDalle.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.txtDalle.Location = New System.Drawing.Point(147, 33)
+        Me.txtDalle.Name = "txtDalle"
+        Me.txtDalle.ShowUpDown = True
+        Me.txtDalle.Size = New System.Drawing.Size(88, 23)
+        Me.txtDalle.TabIndex = 5
+        Me.txtDalle.Value = New Date(2019, 4, 18, 11, 0, 0, 0)
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(24, 70)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(60, 17)
+        Me.Label4.TabIndex = 4
+        Me.Label4.Text = "alle ore:"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(24, 38)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(69, 17)
+        Me.Label3.TabIndex = 3
+        Me.Label3.Text = "dalle ore:"
+        '
+        'txtAlle
+        '
+        Me.txtAlle.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.txtAlle.Location = New System.Drawing.Point(147, 65)
+        Me.txtAlle.Name = "txtAlle"
+        Me.txtAlle.ShowUpDown = True
+        Me.txtAlle.Size = New System.Drawing.Size(88, 23)
+        Me.txtAlle.TabIndex = 6
+        Me.txtAlle.Value = New Date(2019, 4, 18, 23, 59, 0, 0)
+        Me.txtAlle.Visible = False
+        '
+        'chkDalle
+        '
+        Me.chkDalle.AutoSize = True
+        Me.chkDalle.Checked = True
+        Me.chkDalle.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDalle.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.chkDalle.Location = New System.Drawing.Point(100, 38)
+        Me.chkDalle.Name = "chkDalle"
+        Me.chkDalle.Size = New System.Drawing.Size(15, 14)
+        Me.chkDalle.TabIndex = 7
+        Me.chkDalle.UseVisualStyleBackColor = True
+        '
+        'chkAlle
+        '
+        Me.chkAlle.AutoSize = True
+        Me.chkAlle.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.chkAlle.Location = New System.Drawing.Point(100, 72)
+        Me.chkAlle.Name = "chkAlle"
+        Me.chkAlle.Size = New System.Drawing.Size(15, 14)
+        Me.chkAlle.TabIndex = 8
+        Me.chkAlle.UseVisualStyleBackColor = True
+        '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(922, 525)
+        Me.ClientSize = New System.Drawing.Size(963, 525)
+        Me.Controls.Add(Me.grpOrario)
         Me.Controls.Add(Me.rbNomeCartella)
         Me.Controls.Add(Me.rbPercorsoCartella)
         Me.Controls.Add(Me.rbSingolo)
@@ -214,6 +302,8 @@ Partial Class FileTxt
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "File txt"
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpOrario.ResumeLayout(False)
+        Me.grpOrario.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -234,4 +324,11 @@ Partial Class FileTxt
     Friend WithEvents FullPath As DataGridViewTextBoxColumn
     Friend WithEvents Righe As DataGridViewTextBoxColumn
     Friend WithEvents bw As System.ComponentModel.BackgroundWorker
+    Friend WithEvents grpOrario As GroupBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txtDalle As DateTimePicker
+    Friend WithEvents txtAlle As DateTimePicker
+    Friend WithEvents chkAlle As CheckBox
+    Friend WithEvents chkDalle As CheckBox
 End Class
