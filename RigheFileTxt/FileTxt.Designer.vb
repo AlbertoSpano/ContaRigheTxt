@@ -40,12 +40,14 @@ Partial Class FileTxt
         Me.rbNomeCartella = New System.Windows.Forms.RadioButton()
         Me.bw = New System.ComponentModel.BackgroundWorker()
         Me.grpOrario = New System.Windows.Forms.GroupBox()
+        Me.chkAlle = New System.Windows.Forms.CheckBox()
+        Me.chkDalle = New System.Windows.Forms.CheckBox()
+        Me.txtAlle = New System.Windows.Forms.DateTimePicker()
         Me.txtDalle = New System.Windows.Forms.DateTimePicker()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtAlle = New System.Windows.Forms.DateTimePicker()
-        Me.chkDalle = New System.Windows.Forms.CheckBox()
-        Me.chkAlle = New System.Windows.Forms.CheckBox()
+        Me.cboCartellaExport = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.SuspendLayout()
@@ -150,7 +152,7 @@ Partial Class FileTxt
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(29, 62)
+        Me.Label2.Location = New System.Drawing.Point(30, 70)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(154, 17)
         Me.Label2.TabIndex = 7
@@ -158,7 +160,7 @@ Partial Class FileTxt
         '
         'txtPrefisso
         '
-        Me.txtPrefisso.Location = New System.Drawing.Point(205, 59)
+        Me.txtPrefisso.Location = New System.Drawing.Point(205, 67)
         Me.txtPrefisso.MaxLength = 1
         Me.txtPrefisso.Name = "txtPrefisso"
         Me.txtPrefisso.Size = New System.Drawing.Size(66, 23)
@@ -217,6 +219,39 @@ Partial Class FileTxt
         Me.grpOrario.TabStop = False
         Me.grpOrario.Text = "Solo file creati nella fascia:"
         '
+        'chkAlle
+        '
+        Me.chkAlle.AutoSize = True
+        Me.chkAlle.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.chkAlle.Location = New System.Drawing.Point(100, 72)
+        Me.chkAlle.Name = "chkAlle"
+        Me.chkAlle.Size = New System.Drawing.Size(15, 14)
+        Me.chkAlle.TabIndex = 8
+        Me.chkAlle.UseVisualStyleBackColor = True
+        '
+        'chkDalle
+        '
+        Me.chkDalle.AutoSize = True
+        Me.chkDalle.Checked = True
+        Me.chkDalle.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkDalle.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.chkDalle.Location = New System.Drawing.Point(100, 38)
+        Me.chkDalle.Name = "chkDalle"
+        Me.chkDalle.Size = New System.Drawing.Size(15, 14)
+        Me.chkDalle.TabIndex = 7
+        Me.chkDalle.UseVisualStyleBackColor = True
+        '
+        'txtAlle
+        '
+        Me.txtAlle.Format = System.Windows.Forms.DateTimePickerFormat.Time
+        Me.txtAlle.Location = New System.Drawing.Point(147, 65)
+        Me.txtAlle.Name = "txtAlle"
+        Me.txtAlle.ShowUpDown = True
+        Me.txtAlle.Size = New System.Drawing.Size(88, 23)
+        Me.txtAlle.TabIndex = 6
+        Me.txtAlle.Value = New Date(2019, 4, 18, 23, 59, 0, 0)
+        Me.txtAlle.Visible = False
+        '
         'txtDalle
         '
         Me.txtDalle.Format = System.Windows.Forms.DateTimePickerFormat.Time
@@ -245,44 +280,32 @@ Partial Class FileTxt
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "dalle ore:"
         '
-        'txtAlle
+        'cboCartellaExport
         '
-        Me.txtAlle.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.txtAlle.Location = New System.Drawing.Point(147, 65)
-        Me.txtAlle.Name = "txtAlle"
-        Me.txtAlle.ShowUpDown = True
-        Me.txtAlle.Size = New System.Drawing.Size(88, 23)
-        Me.txtAlle.TabIndex = 6
-        Me.txtAlle.Value = New Date(2019, 4, 18, 23, 59, 0, 0)
-        Me.txtAlle.Visible = False
+        Me.cboCartellaExport.FormattingEnabled = True
+        Me.cboCartellaExport.Items.AddRange(New Object() {"... chiedi", "Documenti", "Download", "Temp", "Desktop"})
+        Me.cboCartellaExport.Location = New System.Drawing.Point(145, 107)
+        Me.cboCartellaExport.Name = "cboCartellaExport"
+        Me.cboCartellaExport.Size = New System.Drawing.Size(352, 25)
+        Me.cboCartellaExport.TabIndex = 13
+        Me.cboCartellaExport.Text = "... chiedi"
         '
-        'chkDalle
+        'Label5
         '
-        Me.chkDalle.AutoSize = True
-        Me.chkDalle.Checked = True
-        Me.chkDalle.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkDalle.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.chkDalle.Location = New System.Drawing.Point(100, 38)
-        Me.chkDalle.Name = "chkDalle"
-        Me.chkDalle.Size = New System.Drawing.Size(15, 14)
-        Me.chkDalle.TabIndex = 7
-        Me.chkDalle.UseVisualStyleBackColor = True
-        '
-        'chkAlle
-        '
-        Me.chkAlle.AutoSize = True
-        Me.chkAlle.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.chkAlle.Location = New System.Drawing.Point(100, 72)
-        Me.chkAlle.Name = "chkAlle"
-        Me.chkAlle.Size = New System.Drawing.Size(15, 14)
-        Me.chkAlle.TabIndex = 8
-        Me.chkAlle.UseVisualStyleBackColor = True
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(30, 111)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(109, 17)
+        Me.Label5.TabIndex = 14
+        Me.Label5.Text = "Cartella export:"
         '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(963, 525)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.cboCartellaExport)
         Me.Controls.Add(Me.grpOrario)
         Me.Controls.Add(Me.rbNomeCartella)
         Me.Controls.Add(Me.rbPercorsoCartella)
@@ -331,4 +354,6 @@ Partial Class FileTxt
     Friend WithEvents txtAlle As DateTimePicker
     Friend WithEvents chkAlle As CheckBox
     Friend WithEvents chkDalle As CheckBox
+    Friend WithEvents cboCartellaExport As ComboBox
+    Friend WithEvents Label5 As Label
 End Class

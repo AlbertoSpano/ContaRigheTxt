@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports Microsoft.Office.Interop
+Imports Microsoft.Win32
 Imports OfficeOpenXml
 
 Public Class FileTxt
@@ -75,10 +76,38 @@ Public Class FileTxt
         Me.Cursor = Cursors.WaitCursor
 
         Try
+
+            Dim tempFolder As String = System.IO.Path.GetTempPath()
+            Dim folderExport As String = System.IO.Path.GetTempPath()
+
+            My.Settings.ExportFolder = cboCartellaExport.SelectedItem.ToString
+            My.Settings.Save()
+
+
+            ' ... cartella destinazione
+            Select Case cboCartellaExport.SelectedItem.ToString
+
+                Case "... chiedi"
+                    If fbd.ShowDialog = DialogResult.OK Then
+                        folderExport = fbd.SelectedPath
+                    Else
+                        Return
+                    End If
+                Case "Desktop"
+                    folderExport = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                Case "Documenti"
+                    folderExport = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                Case "Temp"
+                    folderExport = System.IO.Path.GetTempPath()
+                Case "Download"
+                    folderExport = GetDownloadFolderPath()
+                Case Else
+                    ' continua: usa la temp
+            End Select
+
             ' ... nome file temporaneo export
-            Dim matrice As String = IO.Path.Combine(System.IO.Path.GetTempPath(), IO.Path.GetRandomFileName)
-            Dim csv As String = matrice + ".csv"
-            Dim xls As String = matrice + ".xls"
+            Dim csv As String = IO.Path.Combine(tempFolder, IO.Path.GetRandomFileName) + ".csv"
+            Dim xls As String = IO.Path.Combine(folderExport, IO.Path.GetRandomFileName) + ".xlsx"
 
             Dim result As New List(Of String)
 
@@ -131,6 +160,8 @@ Public Class FileTxt
         Me.txtFiltro.Text = My.Settings.Filtro
         Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
+        Me.cboCartellaExport.SelectedItem = My.Settings.ExportFolder
+
         If String.IsNullOrEmpty(My.Settings.Dalle) Then
             chkDalle.Checked = False
         Else
@@ -206,5 +237,9 @@ Public Class FileTxt
     Private Sub chkAlle_CheckedChanged(sender As Object, e As EventArgs) Handles chkAlle.CheckedChanged
         txtAlle.Visible = CType(sender, CheckBox).Checked
     End Sub
+
+    Private Function GetDownloadFolderPath() As String
+        Return Registry.GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString()
+    End Function
 
 End Class
