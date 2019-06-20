@@ -22,11 +22,8 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
-        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnScegli = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFiltro = New System.Windows.Forms.TextBox()
@@ -37,7 +34,6 @@ Partial Class FileTxt
         Me.txtPrefisso = New System.Windows.Forms.TextBox()
         Me.rbSingolo = New System.Windows.Forms.RadioButton()
         Me.rbPercorsoCartella = New System.Windows.Forms.RadioButton()
-        Me.rbNomeCartella = New System.Windows.Forms.RadioButton()
         Me.bw = New System.ComponentModel.BackgroundWorker()
         Me.grpOrario = New System.Windows.Forms.GroupBox()
         Me.chkAlle = New System.Windows.Forms.CheckBox()
@@ -48,6 +44,11 @@ Partial Class FileTxt
         Me.Label3 = New System.Windows.Forms.Label()
         Me.cboCartellaExport = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.chkRinomina = New System.Windows.Forms.CheckBox()
+        Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.SuspendLayout()
@@ -61,45 +62,22 @@ Partial Class FileTxt
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.NomeFile, Me.FullPath, Me.Righe})
-        Me.grdFiles.Location = New System.Drawing.Point(32, 169)
+        Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Numero, Me.NomeFile, Me.FullPath, Me.Righe})
+        Me.grdFiles.Location = New System.Drawing.Point(32, 214)
         Me.grdFiles.Margin = New System.Windows.Forms.Padding(4)
         Me.grdFiles.MultiSelect = False
         Me.grdFiles.Name = "grdFiles"
         Me.grdFiles.ReadOnly = True
         Me.grdFiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdFiles.Size = New System.Drawing.Size(906, 337)
+        Me.grdFiles.Size = New System.Drawing.Size(926, 292)
         Me.grdFiles.TabIndex = 0
-        '
-        'NomeFile
-        '
-        Me.NomeFile.HeaderText = "Cartella"
-        Me.NomeFile.Name = "NomeFile"
-        Me.NomeFile.ReadOnly = True
-        Me.NomeFile.Width = 500
-        '
-        'FullPath
-        '
-        Me.FullPath.HeaderText = "Nome file"
-        Me.FullPath.Name = "FullPath"
-        Me.FullPath.ReadOnly = True
-        Me.FullPath.Width = 200
-        '
-        'Righe
-        '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle4.Format = "N"
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle4
-        Me.Righe.HeaderText = "Righe"
-        Me.Righe.Name = "Righe"
-        Me.Righe.ReadOnly = True
         '
         'btnScegli
         '
         Me.btnScegli.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnScegli.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnScegli.Location = New System.Drawing.Point(783, 23)
+        Me.btnScegli.Location = New System.Drawing.Point(803, 30)
         Me.btnScegli.Margin = New System.Windows.Forms.Padding(4)
         Me.btnScegli.Name = "btnScegli"
         Me.btnScegli.Size = New System.Drawing.Size(154, 30)
@@ -130,7 +108,7 @@ Partial Class FileTxt
         Me.btnEsporta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnEsporta.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnEsporta.Enabled = False
-        Me.btnEsporta.Location = New System.Drawing.Point(783, 72)
+        Me.btnEsporta.Location = New System.Drawing.Point(804, 144)
         Me.btnEsporta.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEsporta.Name = "btnEsporta"
         Me.btnEsporta.Size = New System.Drawing.Size(154, 30)
@@ -142,11 +120,11 @@ Partial Class FileTxt
         '
         Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(33, 139)
+        Me.txtFolder.Location = New System.Drawing.Point(32, 184)
         Me.txtFolder.MaxLength = 12
         Me.txtFolder.Name = "txtFolder"
         Me.txtFolder.ReadOnly = True
-        Me.txtFolder.Size = New System.Drawing.Size(905, 23)
+        Me.txtFolder.Size = New System.Drawing.Size(925, 23)
         Me.txtFolder.TabIndex = 5
         '
         'Label2
@@ -181,24 +159,14 @@ Partial Class FileTxt
         'rbPercorsoCartella
         '
         Me.rbPercorsoCartella.AutoSize = True
+        Me.rbPercorsoCartella.Checked = True
         Me.rbPercorsoCartella.Location = New System.Drawing.Point(299, 54)
         Me.rbPercorsoCartella.Name = "rbPercorsoCartella"
         Me.rbPercorsoCartella.Size = New System.Drawing.Size(198, 21)
         Me.rbPercorsoCartella.TabIndex = 10
+        Me.rbPercorsoCartella.TabStop = True
         Me.rbPercorsoCartella.Text = "Totali per percorso cartella"
         Me.rbPercorsoCartella.UseVisualStyleBackColor = True
-        '
-        'rbNomeCartella
-        '
-        Me.rbNomeCartella.AutoSize = True
-        Me.rbNomeCartella.Checked = True
-        Me.rbNomeCartella.Location = New System.Drawing.Point(299, 81)
-        Me.rbNomeCartella.Name = "rbNomeCartella"
-        Me.rbNomeCartella.Size = New System.Drawing.Size(180, 21)
-        Me.rbNomeCartella.TabIndex = 11
-        Me.rbNomeCartella.TabStop = True
-        Me.rbNomeCartella.Text = "Totali per nome cartella"
-        Me.rbNomeCartella.UseVisualStyleBackColor = True
         '
         'bw
         '
@@ -284,7 +252,7 @@ Partial Class FileTxt
         '
         Me.cboCartellaExport.FormattingEnabled = True
         Me.cboCartellaExport.Items.AddRange(New Object() {"... chiedi", "Documenti", "Download", "Temp", "Desktop"})
-        Me.cboCartellaExport.Location = New System.Drawing.Point(145, 107)
+        Me.cboCartellaExport.Location = New System.Drawing.Point(145, 153)
         Me.cboCartellaExport.Name = "cboCartellaExport"
         Me.cboCartellaExport.Size = New System.Drawing.Size(352, 25)
         Me.cboCartellaExport.TabIndex = 13
@@ -293,21 +261,64 @@ Partial Class FileTxt
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(30, 111)
+        Me.Label5.Location = New System.Drawing.Point(30, 157)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(109, 17)
         Me.Label5.TabIndex = 14
         Me.Label5.Text = "Cartella export:"
         '
+        'chkRinomina
+        '
+        Me.chkRinomina.AutoSize = True
+        Me.chkRinomina.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkRinomina.Checked = True
+        Me.chkRinomina.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkRinomina.Location = New System.Drawing.Point(32, 112)
+        Me.chkRinomina.Name = "chkRinomina"
+        Me.chkRinomina.Size = New System.Drawing.Size(323, 21)
+        Me.chkRinomina.TabIndex = 15
+        Me.chkRinomina.Text = "Rinomina cartelle con aggiunta numero righe"
+        Me.chkRinomina.UseVisualStyleBackColor = True
+        '
+        'Numero
+        '
+        Me.Numero.HeaderText = "#"
+        Me.Numero.Name = "Numero"
+        Me.Numero.ReadOnly = True
+        Me.Numero.Width = 60
+        '
+        'NomeFile
+        '
+        Me.NomeFile.HeaderText = "Cartella"
+        Me.NomeFile.Name = "NomeFile"
+        Me.NomeFile.ReadOnly = True
+        Me.NomeFile.Width = 500
+        '
+        'FullPath
+        '
+        Me.FullPath.HeaderText = "Nome file"
+        Me.FullPath.Name = "FullPath"
+        Me.FullPath.ReadOnly = True
+        Me.FullPath.Width = 200
+        '
+        'Righe
+        '
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle2.Format = "N"
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Righe.HeaderText = "Righe"
+        Me.Righe.Name = "Righe"
+        Me.Righe.ReadOnly = True
+        '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(963, 525)
+        Me.ClientSize = New System.Drawing.Size(983, 525)
+        Me.Controls.Add(Me.chkRinomina)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.cboCartellaExport)
         Me.Controls.Add(Me.grpOrario)
-        Me.Controls.Add(Me.rbNomeCartella)
         Me.Controls.Add(Me.rbPercorsoCartella)
         Me.Controls.Add(Me.rbSingolo)
         Me.Controls.Add(Me.txtPrefisso)
@@ -342,10 +353,6 @@ Partial Class FileTxt
     Friend WithEvents txtPrefisso As TextBox
     Friend WithEvents rbSingolo As RadioButton
     Friend WithEvents rbPercorsoCartella As RadioButton
-    Friend WithEvents rbNomeCartella As RadioButton
-    Friend WithEvents NomeFile As DataGridViewTextBoxColumn
-    Friend WithEvents FullPath As DataGridViewTextBoxColumn
-    Friend WithEvents Righe As DataGridViewTextBoxColumn
     Friend WithEvents bw As System.ComponentModel.BackgroundWorker
     Friend WithEvents grpOrario As GroupBox
     Friend WithEvents Label4 As Label
@@ -356,4 +363,9 @@ Partial Class FileTxt
     Friend WithEvents chkDalle As CheckBox
     Friend WithEvents cboCartellaExport As ComboBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents chkRinomina As CheckBox
+    Friend WithEvents Numero As DataGridViewTextBoxColumn
+    Friend WithEvents NomeFile As DataGridViewTextBoxColumn
+    Friend WithEvents FullPath As DataGridViewTextBoxColumn
+    Friend WithEvents Righe As DataGridViewTextBoxColumn
 End Class

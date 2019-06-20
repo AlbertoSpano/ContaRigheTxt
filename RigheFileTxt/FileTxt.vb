@@ -83,7 +83,6 @@ Public Class FileTxt
             My.Settings.ExportFolder = cboCartellaExport.SelectedItem.ToString
             My.Settings.Save()
 
-
             ' ... cartella destinazione
             Select Case cboCartellaExport.SelectedItem.ToString
 
@@ -116,11 +115,11 @@ Public Class FileTxt
 
             For Each d As DataGridViewRow In grdFiles.Rows
                 ' ... cartella
-                Dim c As String = d.Cells(0).Value.ToString
+                Dim c As String = d.Cells(1).Value.ToString
                 ' ... se il nome cartella è un numero antepone un apice
                 If IsNumeric(c) Then c = My.Settings.Prefisso + c
                 ' ... riga excel
-                result.Add(String.Format("{0}{1}{2}", c, vbTab, d.Cells(2).Value))
+                result.Add(String.Format("{0}{1}{2}", c, vbTab, d.Cells(3).Value))
             Next
 
             ' ... scrive nel file
@@ -142,14 +141,12 @@ Public Class FileTxt
 
             End Using
 
-
             ' ... apre il file
             System.Diagnostics.Process.Start(xls)
 
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
-
 
         Me.Cursor = Cursors.Default
 
@@ -200,9 +197,9 @@ Public Class FileTxt
 
         ' ... raggruppa
         If rbPercorsoCartella.Checked Then
-            g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
-        ElseIf rbNomeCartella.Checked Then
-            g = g.GroupBy(Function(x) IO.Path.GetFileName(x.Cartella)).Select(Function(y) New Riga() With {.Cartella = y.Key, .NomeFile = String.Format("(numero file: {0})", y.Count), .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
+            g = g.GroupBy(Function(x) x.Cartella).Select(Function(y) New Riga() With {.Cartella = y.Key,
+                                                                                      .NomeFile = String.Format("(numero file: {0})", y.Count),
+                                                                                      .Righe = y.Sum(Function(z) z.Righe)}).OrderBy(Function(o) o.Cartella).ToList
         End If
 
         ' ... totali
@@ -214,9 +211,13 @@ Public Class FileTxt
 
     Private Sub bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
 
+        Me.grdFiles.Rows.Clear()
+
         ' ... ricopia i file nella griglia
+        Dim n As Integer = 0
         For Each f As Riga In CType(e.Result, List(Of Riga))
-            Me.grdFiles.Rows.Add(IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
+            n += 1
+            Me.grdFiles.Rows.Add(n, IO.Path.GetFileName(f.Cartella), f.NomeFile, f.Righe)
         Next
 
         ' ...
@@ -226,7 +227,17 @@ Public Class FileTxt
         Me.btnEsporta.Enabled = grdFiles.Rows.Count > 0
 
         ' ... nessun file
-        If grdFiles.Rows.Count = 0 Then MsgBox("Nessun file trovato!")
+        If grdFiles.Rows.Count = 0 Then
+            MsgBox("Nessun file trovato!")
+        Else
+            ' ... rinomina cartelle
+            If chkRinomina.Checked Then
+                For Each f As Riga In CType(e.Result, List(Of Riga)).Where(Function(x) Not String.IsNullOrEmpty(x.Cartella))
+                    IO.Directory.Move(f.Cartella, String.Format("{0} {1}", f.Cartella, f.Righe))
+                Next
+            End If
+        End If
+
 
     End Sub
 
