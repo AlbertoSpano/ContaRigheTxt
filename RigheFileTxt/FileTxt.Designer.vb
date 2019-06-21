@@ -22,8 +22,12 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
+        Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnScegli = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFiltro = New System.Windows.Forms.TextBox()
@@ -45,10 +49,8 @@ Partial Class FileTxt
         Me.cboCartellaExport = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.chkRinomina = New System.Windows.Forms.CheckBox()
-        Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.rbCreati = New System.Windows.Forms.RadioButton()
+        Me.rbModificati = New System.Windows.Forms.RadioButton()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.SuspendLayout()
@@ -72,6 +74,36 @@ Partial Class FileTxt
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdFiles.Size = New System.Drawing.Size(926, 292)
         Me.grdFiles.TabIndex = 0
+        '
+        'Numero
+        '
+        Me.Numero.HeaderText = "#"
+        Me.Numero.Name = "Numero"
+        Me.Numero.ReadOnly = True
+        Me.Numero.Width = 60
+        '
+        'NomeFile
+        '
+        Me.NomeFile.HeaderText = "Cartella"
+        Me.NomeFile.Name = "NomeFile"
+        Me.NomeFile.ReadOnly = True
+        Me.NomeFile.Width = 500
+        '
+        'FullPath
+        '
+        Me.FullPath.HeaderText = "Nome file"
+        Me.FullPath.Name = "FullPath"
+        Me.FullPath.ReadOnly = True
+        Me.FullPath.Width = 200
+        '
+        'Righe
+        '
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "N"
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Righe.HeaderText = "Righe"
+        Me.Righe.Name = "Righe"
+        Me.Righe.ReadOnly = True
         '
         'btnScegli
         '
@@ -173,6 +205,8 @@ Partial Class FileTxt
         '
         'grpOrario
         '
+        Me.grpOrario.Controls.Add(Me.rbModificati)
+        Me.grpOrario.Controls.Add(Me.rbCreati)
         Me.grpOrario.Controls.Add(Me.chkAlle)
         Me.grpOrario.Controls.Add(Me.chkDalle)
         Me.grpOrario.Controls.Add(Me.txtAlle)
@@ -182,16 +216,16 @@ Partial Class FileTxt
         Me.grpOrario.ForeColor = System.Drawing.SystemColors.WindowText
         Me.grpOrario.Location = New System.Drawing.Point(520, 26)
         Me.grpOrario.Name = "grpOrario"
-        Me.grpOrario.Size = New System.Drawing.Size(256, 107)
+        Me.grpOrario.Size = New System.Drawing.Size(276, 121)
         Me.grpOrario.TabIndex = 12
         Me.grpOrario.TabStop = False
-        Me.grpOrario.Text = "Solo file creati nella fascia:"
+        Me.grpOrario.Text = "Solo file creati/modificati nella fascia:"
         '
         'chkAlle
         '
         Me.chkAlle.AutoSize = True
         Me.chkAlle.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.chkAlle.Location = New System.Drawing.Point(100, 72)
+        Me.chkAlle.Location = New System.Drawing.Point(100, 93)
         Me.chkAlle.Name = "chkAlle"
         Me.chkAlle.Size = New System.Drawing.Size(15, 14)
         Me.chkAlle.TabIndex = 8
@@ -203,7 +237,7 @@ Partial Class FileTxt
         Me.chkDalle.Checked = True
         Me.chkDalle.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkDalle.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.chkDalle.Location = New System.Drawing.Point(100, 38)
+        Me.chkDalle.Location = New System.Drawing.Point(100, 59)
         Me.chkDalle.Name = "chkDalle"
         Me.chkDalle.Size = New System.Drawing.Size(15, 14)
         Me.chkDalle.TabIndex = 7
@@ -212,7 +246,7 @@ Partial Class FileTxt
         'txtAlle
         '
         Me.txtAlle.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.txtAlle.Location = New System.Drawing.Point(147, 65)
+        Me.txtAlle.Location = New System.Drawing.Point(147, 86)
         Me.txtAlle.Name = "txtAlle"
         Me.txtAlle.ShowUpDown = True
         Me.txtAlle.Size = New System.Drawing.Size(88, 23)
@@ -223,7 +257,7 @@ Partial Class FileTxt
         'txtDalle
         '
         Me.txtDalle.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.txtDalle.Location = New System.Drawing.Point(147, 33)
+        Me.txtDalle.Location = New System.Drawing.Point(147, 54)
         Me.txtDalle.Name = "txtDalle"
         Me.txtDalle.ShowUpDown = True
         Me.txtDalle.Size = New System.Drawing.Size(88, 23)
@@ -233,7 +267,7 @@ Partial Class FileTxt
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 70)
+        Me.Label4.Location = New System.Drawing.Point(24, 91)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(60, 17)
         Me.Label4.TabIndex = 4
@@ -242,7 +276,7 @@ Partial Class FileTxt
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(24, 38)
+        Me.Label3.Location = New System.Drawing.Point(24, 59)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(69, 17)
         Me.Label3.TabIndex = 3
@@ -280,35 +314,27 @@ Partial Class FileTxt
         Me.chkRinomina.Text = "Rinomina cartelle con aggiunta numero righe"
         Me.chkRinomina.UseVisualStyleBackColor = True
         '
-        'Numero
+        'rbCreati
         '
-        Me.Numero.HeaderText = "#"
-        Me.Numero.Name = "Numero"
-        Me.Numero.ReadOnly = True
-        Me.Numero.Width = 60
+        Me.rbCreati.AutoSize = True
+        Me.rbCreati.Location = New System.Drawing.Point(27, 28)
+        Me.rbCreati.Name = "rbCreati"
+        Me.rbCreati.Size = New System.Drawing.Size(63, 21)
+        Me.rbCreati.TabIndex = 9
+        Me.rbCreati.Text = "creati"
+        Me.rbCreati.UseVisualStyleBackColor = True
         '
-        'NomeFile
+        'rbModificati
         '
-        Me.NomeFile.HeaderText = "Cartella"
-        Me.NomeFile.Name = "NomeFile"
-        Me.NomeFile.ReadOnly = True
-        Me.NomeFile.Width = 500
-        '
-        'FullPath
-        '
-        Me.FullPath.HeaderText = "Nome file"
-        Me.FullPath.Name = "FullPath"
-        Me.FullPath.ReadOnly = True
-        Me.FullPath.Width = 200
-        '
-        'Righe
-        '
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle2.Format = "N"
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Righe.HeaderText = "Righe"
-        Me.Righe.Name = "Righe"
-        Me.Righe.ReadOnly = True
+        Me.rbModificati.AutoSize = True
+        Me.rbModificati.Checked = True
+        Me.rbModificati.Location = New System.Drawing.Point(100, 28)
+        Me.rbModificati.Name = "rbModificati"
+        Me.rbModificati.Size = New System.Drawing.Size(92, 21)
+        Me.rbModificati.TabIndex = 10
+        Me.rbModificati.TabStop = True
+        Me.rbModificati.Text = "modificati"
+        Me.rbModificati.UseVisualStyleBackColor = True
         '
         'FileTxt
         '
@@ -368,4 +394,6 @@ Partial Class FileTxt
     Friend WithEvents NomeFile As DataGridViewTextBoxColumn
     Friend WithEvents FullPath As DataGridViewTextBoxColumn
     Friend WithEvents Righe As DataGridViewTextBoxColumn
+    Friend WithEvents rbModificati As RadioButton
+    Friend WithEvents rbCreati As RadioButton
 End Class

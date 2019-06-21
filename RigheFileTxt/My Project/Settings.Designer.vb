@@ -125,6 +125,18 @@ Namespace My
                 Me("ExportFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("M")>  _
+        Public Property Creati() As String
+            Get
+                Return CType(Me("Creati"),String)
+            End Get
+            Set
+                Me("Creati") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

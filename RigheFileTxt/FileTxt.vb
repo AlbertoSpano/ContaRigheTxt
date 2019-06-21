@@ -26,6 +26,7 @@ Public Class FileTxt
         My.Settings.Filtro = Me.txtFiltro.Text
         My.Settings.Dalle = If(Me.chkDalle.Checked, Me.txtDalle.Text, Nothing)
         My.Settings.Alle = If(Me.chkAlle.Checked, Me.txtAlle.Text, Nothing)
+        My.Settings.Creati = If(rbCreati.Checked, "C", "M")
         My.Settings.Save()
 
         Me.fbd.ShowNewFolderButton = False
@@ -158,6 +159,7 @@ Public Class FileTxt
         Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
         Me.cboCartellaExport.SelectedItem = My.Settings.ExportFolder
+        Me.rbCreati.Checked = My.Settings.Creati = "C"
 
         If String.IsNullOrEmpty(My.Settings.Dalle) Then
             chkDalle.Checked = False
@@ -189,8 +191,13 @@ Public Class FileTxt
         ContaRighe(argument.PercorsoIniziale, elenco)
 
         ' ... filtra per orario
-        If argument.Dalle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay >= CDate(argument.Dalle).TimeOfDay).ToList
-        If argument.Alle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay <= CDate(argument.Alle).TimeOfDay).ToList
+        If rbCreati.Checked Then
+            If argument.Dalle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay >= CDate(argument.Dalle).TimeOfDay).ToList
+            If argument.Alle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetCreationTime(x).TimeOfDay <= CDate(argument.Alle).TimeOfDay).ToList
+        Else
+            If argument.Dalle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetLastWriteTime(x).TimeOfDay >= CDate(argument.Dalle).TimeOfDay).ToList
+            If argument.Alle IsNot Nothing Then elenco = elenco.Where(Function(x) IO.File.GetLastWriteTime(x).TimeOfDay <= CDate(argument.Alle).TimeOfDay).ToList
+        End If
 
         ' ... conta le righe dei file selezionati
         Dim g As List(Of Riga) = elenco.Select(Function(x) New Riga() With {.Cartella = IO.Path.GetDirectoryName(x), .NomeFile = IO.Path.GetFileName(x), .Righe = IO.File.ReadAllLines(x).Count}).ToList
