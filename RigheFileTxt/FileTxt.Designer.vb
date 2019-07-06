@@ -40,6 +40,8 @@ Partial Class FileTxt
         Me.rbPercorsoCartella = New System.Windows.Forms.RadioButton()
         Me.bw = New System.ComponentModel.BackgroundWorker()
         Me.grpOrario = New System.Windows.Forms.GroupBox()
+        Me.rbModificati = New System.Windows.Forms.RadioButton()
+        Me.rbCreati = New System.Windows.Forms.RadioButton()
         Me.chkAlle = New System.Windows.Forms.CheckBox()
         Me.chkDalle = New System.Windows.Forms.CheckBox()
         Me.txtAlle = New System.Windows.Forms.DateTimePicker()
@@ -49,8 +51,7 @@ Partial Class FileTxt
         Me.cboCartellaExport = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.chkRinomina = New System.Windows.Forms.CheckBox()
-        Me.rbCreati = New System.Windows.Forms.RadioButton()
-        Me.rbModificati = New System.Windows.Forms.RadioButton()
+        Me.chkApriFileAlTermine = New System.Windows.Forms.CheckBox()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.SuspendLayout()
@@ -221,6 +222,28 @@ Partial Class FileTxt
         Me.grpOrario.TabStop = False
         Me.grpOrario.Text = "Solo file creati/modificati nella fascia:"
         '
+        'rbModificati
+        '
+        Me.rbModificati.AutoSize = True
+        Me.rbModificati.Checked = True
+        Me.rbModificati.Location = New System.Drawing.Point(100, 28)
+        Me.rbModificati.Name = "rbModificati"
+        Me.rbModificati.Size = New System.Drawing.Size(92, 21)
+        Me.rbModificati.TabIndex = 10
+        Me.rbModificati.TabStop = True
+        Me.rbModificati.Text = "modificati"
+        Me.rbModificati.UseVisualStyleBackColor = True
+        '
+        'rbCreati
+        '
+        Me.rbCreati.AutoSize = True
+        Me.rbCreati.Location = New System.Drawing.Point(27, 28)
+        Me.rbCreati.Name = "rbCreati"
+        Me.rbCreati.Size = New System.Drawing.Size(63, 21)
+        Me.rbCreati.TabIndex = 9
+        Me.rbCreati.Text = "creati"
+        Me.rbCreati.UseVisualStyleBackColor = True
+        '
         'chkAlle
         '
         Me.chkAlle.AutoSize = True
@@ -314,33 +337,22 @@ Partial Class FileTxt
         Me.chkRinomina.Text = "Rinomina cartelle con aggiunta numero righe"
         Me.chkRinomina.UseVisualStyleBackColor = True
         '
-        'rbCreati
+        'chkApriFileAlTermine
         '
-        Me.rbCreati.AutoSize = True
-        Me.rbCreati.Location = New System.Drawing.Point(27, 28)
-        Me.rbCreati.Name = "rbCreati"
-        Me.rbCreati.Size = New System.Drawing.Size(63, 21)
-        Me.rbCreati.TabIndex = 9
-        Me.rbCreati.Text = "creati"
-        Me.rbCreati.UseVisualStyleBackColor = True
-        '
-        'rbModificati
-        '
-        Me.rbModificati.AutoSize = True
-        Me.rbModificati.Checked = True
-        Me.rbModificati.Location = New System.Drawing.Point(100, 28)
-        Me.rbModificati.Name = "rbModificati"
-        Me.rbModificati.Size = New System.Drawing.Size(92, 21)
-        Me.rbModificati.TabIndex = 10
-        Me.rbModificati.TabStop = True
-        Me.rbModificati.Text = "modificati"
-        Me.rbModificati.UseVisualStyleBackColor = True
+        Me.chkApriFileAlTermine.AutoSize = True
+        Me.chkApriFileAlTermine.Location = New System.Drawing.Point(520, 155)
+        Me.chkApriFileAlTermine.Name = "chkApriFileAlTermine"
+        Me.chkApriFileAlTermine.Size = New System.Drawing.Size(161, 21)
+        Me.chkApriFileAlTermine.TabIndex = 16
+        Me.chkApriFileAlTermine.Text = "apri file xls al termine"
+        Me.chkApriFileAlTermine.UseVisualStyleBackColor = True
         '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(983, 525)
+        Me.Controls.Add(Me.chkApriFileAlTermine)
         Me.Controls.Add(Me.chkRinomina)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.cboCartellaExport)
@@ -396,4 +408,5 @@ Partial Class FileTxt
     Friend WithEvents Righe As DataGridViewTextBoxColumn
     Friend WithEvents rbModificati As RadioButton
     Friend WithEvents rbCreati As RadioButton
+    Friend WithEvents chkApriFileAlTermine As CheckBox
 End Class

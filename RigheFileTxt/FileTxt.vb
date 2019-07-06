@@ -143,7 +143,7 @@ Public Class FileTxt
             End Using
 
             ' ... apre il file
-            System.Diagnostics.Process.Start(xls)
+            If chkApriFileAlTermine.Checked Then System.Diagnostics.Process.Start(xls)
 
         Catch ex As Exception
             MsgBox(ex.Message)
