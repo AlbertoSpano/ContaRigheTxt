@@ -17,9 +17,6 @@
     <Setting Name="Alle" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ExportFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Desktop</Value>
-    </Setting>
     <Setting Name="Creati" Type="System.String" Scope="User">
       <Value Profile="(Default)">M</Value>
     </Setting>

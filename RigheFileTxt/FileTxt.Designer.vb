@@ -22,7 +22,7 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
         Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -48,12 +48,15 @@ Partial Class FileTxt
         Me.txtDalle = New System.Windows.Forms.DateTimePicker()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.cboCartellaExport = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.chkRinomina = New System.Windows.Forms.CheckBox()
         Me.chkApriFileAlTermine = New System.Windows.Forms.CheckBox()
+        Me.chkAccorpaFile = New System.Windows.Forms.CheckBox()
+        Me.txtPatternAccorpamento = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.grpAccorpamento = New System.Windows.Forms.GroupBox()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
+        Me.grpAccorpamento.SuspendLayout()
         Me.SuspendLayout()
         '
         'grdFiles
@@ -66,15 +69,16 @@ Partial Class FileTxt
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grdFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdFiles.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Numero, Me.NomeFile, Me.FullPath, Me.Righe})
-        Me.grdFiles.Location = New System.Drawing.Point(32, 214)
+        Me.grdFiles.Location = New System.Drawing.Point(32, 256)
         Me.grdFiles.Margin = New System.Windows.Forms.Padding(4)
         Me.grdFiles.MultiSelect = False
         Me.grdFiles.Name = "grdFiles"
         Me.grdFiles.ReadOnly = True
         Me.grdFiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdFiles.Size = New System.Drawing.Size(926, 292)
+        Me.grdFiles.Size = New System.Drawing.Size(926, 250)
         Me.grdFiles.TabIndex = 0
+        Me.grdFiles.TabStop = False
         '
         'Numero
         '
@@ -99,9 +103,9 @@ Partial Class FileTxt
         '
         'Righe
         '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle1.Format = "N"
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle12.Format = "N"
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle12
         Me.Righe.HeaderText = "Righe"
         Me.Righe.Name = "Righe"
         Me.Righe.ReadOnly = True
@@ -114,7 +118,7 @@ Partial Class FileTxt
         Me.btnScegli.Margin = New System.Windows.Forms.Padding(4)
         Me.btnScegli.Name = "btnScegli"
         Me.btnScegli.Size = New System.Drawing.Size(154, 30)
-        Me.btnScegli.TabIndex = 1
+        Me.btnScegli.TabIndex = 13
         Me.btnScegli.Text = "Scegli ..."
         Me.btnScegli.UseVisualStyleBackColor = True
         '
@@ -133,7 +137,7 @@ Partial Class FileTxt
         Me.txtFiltro.MaxLength = 12
         Me.txtFiltro.Name = "txtFiltro"
         Me.txtFiltro.Size = New System.Drawing.Size(130, 23)
-        Me.txtFiltro.TabIndex = 3
+        Me.txtFiltro.TabIndex = 0
         Me.txtFiltro.Text = ".txt"
         '
         'btnEsporta
@@ -141,11 +145,11 @@ Partial Class FileTxt
         Me.btnEsporta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnEsporta.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnEsporta.Enabled = False
-        Me.btnEsporta.Location = New System.Drawing.Point(804, 144)
+        Me.btnEsporta.Location = New System.Drawing.Point(804, 176)
         Me.btnEsporta.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEsporta.Name = "btnEsporta"
         Me.btnEsporta.Size = New System.Drawing.Size(154, 30)
-        Me.btnEsporta.TabIndex = 4
+        Me.btnEsporta.TabIndex = 15
         Me.btnEsporta.Text = "Esporta elenco"
         Me.btnEsporta.UseVisualStyleBackColor = True
         '
@@ -153,17 +157,18 @@ Partial Class FileTxt
         '
         Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(32, 184)
+        Me.txtFolder.Location = New System.Drawing.Point(32, 226)
         Me.txtFolder.MaxLength = 12
         Me.txtFolder.Name = "txtFolder"
         Me.txtFolder.ReadOnly = True
         Me.txtFolder.Size = New System.Drawing.Size(925, 23)
         Me.txtFolder.TabIndex = 5
+        Me.txtFolder.TabStop = False
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(30, 70)
+        Me.Label2.Location = New System.Drawing.Point(29, 63)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(154, 17)
         Me.Label2.TabIndex = 7
@@ -171,34 +176,34 @@ Partial Class FileTxt
         '
         'txtPrefisso
         '
-        Me.txtPrefisso.Location = New System.Drawing.Point(205, 67)
+        Me.txtPrefisso.Location = New System.Drawing.Point(205, 60)
         Me.txtPrefisso.MaxLength = 1
         Me.txtPrefisso.Name = "txtPrefisso"
         Me.txtPrefisso.Size = New System.Drawing.Size(66, 23)
-        Me.txtPrefisso.TabIndex = 8
+        Me.txtPrefisso.TabIndex = 1
         Me.txtPrefisso.Text = "L"
         Me.txtPrefisso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'rbSingolo
         '
         Me.rbSingolo.AutoSize = True
-        Me.rbSingolo.Location = New System.Drawing.Point(299, 26)
+        Me.rbSingolo.Location = New System.Drawing.Point(281, 132)
         Me.rbSingolo.Name = "rbSingolo"
-        Me.rbSingolo.Size = New System.Drawing.Size(157, 21)
-        Me.rbSingolo.TabIndex = 9
-        Me.rbSingolo.Text = "Totali per singolo file"
+        Me.rbSingolo.Size = New System.Drawing.Size(193, 21)
+        Me.rbSingolo.TabIndex = 4
+        Me.rbSingolo.Text = "Totali righe per singolo file"
         Me.rbSingolo.UseVisualStyleBackColor = True
         '
         'rbPercorsoCartella
         '
         Me.rbPercorsoCartella.AutoSize = True
         Me.rbPercorsoCartella.Checked = True
-        Me.rbPercorsoCartella.Location = New System.Drawing.Point(299, 54)
+        Me.rbPercorsoCartella.Location = New System.Drawing.Point(32, 132)
         Me.rbPercorsoCartella.Name = "rbPercorsoCartella"
-        Me.rbPercorsoCartella.Size = New System.Drawing.Size(198, 21)
-        Me.rbPercorsoCartella.TabIndex = 10
+        Me.rbPercorsoCartella.Size = New System.Drawing.Size(234, 21)
+        Me.rbPercorsoCartella.TabIndex = 3
         Me.rbPercorsoCartella.TabStop = True
-        Me.rbPercorsoCartella.Text = "Totali per percorso cartella"
+        Me.rbPercorsoCartella.Text = "Totali righe per percorso cartella"
         Me.rbPercorsoCartella.UseVisualStyleBackColor = True
         '
         'bw
@@ -229,7 +234,7 @@ Partial Class FileTxt
         Me.rbModificati.Location = New System.Drawing.Point(100, 28)
         Me.rbModificati.Name = "rbModificati"
         Me.rbModificati.Size = New System.Drawing.Size(92, 21)
-        Me.rbModificati.TabIndex = 10
+        Me.rbModificati.TabIndex = 8
         Me.rbModificati.TabStop = True
         Me.rbModificati.Text = "modificati"
         Me.rbModificati.UseVisualStyleBackColor = True
@@ -240,7 +245,7 @@ Partial Class FileTxt
         Me.rbCreati.Location = New System.Drawing.Point(27, 28)
         Me.rbCreati.Name = "rbCreati"
         Me.rbCreati.Size = New System.Drawing.Size(63, 21)
-        Me.rbCreati.TabIndex = 9
+        Me.rbCreati.TabIndex = 7
         Me.rbCreati.Text = "creati"
         Me.rbCreati.UseVisualStyleBackColor = True
         '
@@ -251,7 +256,7 @@ Partial Class FileTxt
         Me.chkAlle.Location = New System.Drawing.Point(100, 93)
         Me.chkAlle.Name = "chkAlle"
         Me.chkAlle.Size = New System.Drawing.Size(15, 14)
-        Me.chkAlle.TabIndex = 8
+        Me.chkAlle.TabIndex = 11
         Me.chkAlle.UseVisualStyleBackColor = True
         '
         'chkDalle
@@ -263,7 +268,7 @@ Partial Class FileTxt
         Me.chkDalle.Location = New System.Drawing.Point(100, 59)
         Me.chkDalle.Name = "chkDalle"
         Me.chkDalle.Size = New System.Drawing.Size(15, 14)
-        Me.chkDalle.TabIndex = 7
+        Me.chkDalle.TabIndex = 9
         Me.chkDalle.UseVisualStyleBackColor = True
         '
         'txtAlle
@@ -273,7 +278,7 @@ Partial Class FileTxt
         Me.txtAlle.Name = "txtAlle"
         Me.txtAlle.ShowUpDown = True
         Me.txtAlle.Size = New System.Drawing.Size(88, 23)
-        Me.txtAlle.TabIndex = 6
+        Me.txtAlle.TabIndex = 12
         Me.txtAlle.Value = New Date(2019, 4, 18, 23, 59, 0, 0)
         Me.txtAlle.Visible = False
         '
@@ -284,13 +289,13 @@ Partial Class FileTxt
         Me.txtDalle.Name = "txtDalle"
         Me.txtDalle.ShowUpDown = True
         Me.txtDalle.Size = New System.Drawing.Size(88, 23)
-        Me.txtDalle.TabIndex = 5
+        Me.txtDalle.TabIndex = 10
         Me.txtDalle.Value = New Date(2019, 4, 18, 11, 0, 0, 0)
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 91)
+        Me.Label4.Location = New System.Drawing.Point(24, 90)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(60, 17)
         Me.Label4.TabIndex = 4
@@ -299,63 +304,83 @@ Partial Class FileTxt
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(24, 59)
+        Me.Label3.Location = New System.Drawing.Point(24, 58)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(69, 17)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "dalle ore:"
         '
-        'cboCartellaExport
-        '
-        Me.cboCartellaExport.FormattingEnabled = True
-        Me.cboCartellaExport.Items.AddRange(New Object() {"... chiedi", "Documenti", "Download", "Temp", "Desktop"})
-        Me.cboCartellaExport.Location = New System.Drawing.Point(145, 153)
-        Me.cboCartellaExport.Name = "cboCartellaExport"
-        Me.cboCartellaExport.Size = New System.Drawing.Size(352, 25)
-        Me.cboCartellaExport.TabIndex = 13
-        Me.cboCartellaExport.Text = "... chiedi"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(30, 157)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(109, 17)
-        Me.Label5.TabIndex = 14
-        Me.Label5.Text = "Cartella export:"
-        '
         'chkRinomina
         '
         Me.chkRinomina.AutoSize = True
         Me.chkRinomina.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkRinomina.Checked = True
-        Me.chkRinomina.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkRinomina.Location = New System.Drawing.Point(32, 112)
+        Me.chkRinomina.Location = New System.Drawing.Point(29, 96)
         Me.chkRinomina.Name = "chkRinomina"
         Me.chkRinomina.Size = New System.Drawing.Size(323, 21)
-        Me.chkRinomina.TabIndex = 15
+        Me.chkRinomina.TabIndex = 2
         Me.chkRinomina.Text = "Rinomina cartelle con aggiunta numero righe"
         Me.chkRinomina.UseVisualStyleBackColor = True
         '
         'chkApriFileAlTermine
         '
         Me.chkApriFileAlTermine.AutoSize = True
-        Me.chkApriFileAlTermine.Location = New System.Drawing.Point(520, 155)
+        Me.chkApriFileAlTermine.Location = New System.Drawing.Point(635, 182)
         Me.chkApriFileAlTermine.Name = "chkApriFileAlTermine"
         Me.chkApriFileAlTermine.Size = New System.Drawing.Size(161, 21)
-        Me.chkApriFileAlTermine.TabIndex = 16
+        Me.chkApriFileAlTermine.TabIndex = 14
         Me.chkApriFileAlTermine.Text = "apri file xls al termine"
         Me.chkApriFileAlTermine.UseVisualStyleBackColor = True
+        '
+        'chkAccorpaFile
+        '
+        Me.chkAccorpaFile.AutoSize = True
+        Me.chkAccorpaFile.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkAccorpaFile.Location = New System.Drawing.Point(20, 23)
+        Me.chkAccorpaFile.Name = "chkAccorpaFile"
+        Me.chkAccorpaFile.Size = New System.Drawing.Size(164, 21)
+        Me.chkAccorpaFile.TabIndex = 5
+        Me.chkAccorpaFile.Text = "Accorpa per tipo file:"
+        Me.chkAccorpaFile.UseVisualStyleBackColor = True
+        '
+        'txtPatternAccorpamento
+        '
+        Me.txtPatternAccorpamento.Enabled = False
+        Me.txtPatternAccorpamento.Location = New System.Drawing.Point(448, 21)
+        Me.txtPatternAccorpamento.MaxLength = 2
+        Me.txtPatternAccorpamento.Name = "txtPatternAccorpamento"
+        Me.txtPatternAccorpamento.Size = New System.Drawing.Size(66, 23)
+        Me.txtPatternAccorpamento.TabIndex = 6
+        Me.txtPatternAccorpamento.Text = "10"
+        Me.txtPatternAccorpamento.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(210, 24)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(232, 17)
+        Me.Label6.TabIndex = 18
+        Me.Label6.Text = "Lunghezza parte dx nome file tipo:"
+        '
+        'grpAccorpamento
+        '
+        Me.grpAccorpamento.Controls.Add(Me.chkAccorpaFile)
+        Me.grpAccorpamento.Controls.Add(Me.txtPatternAccorpamento)
+        Me.grpAccorpamento.Controls.Add(Me.Label6)
+        Me.grpAccorpamento.Location = New System.Drawing.Point(32, 159)
+        Me.grpAccorpamento.Name = "grpAccorpamento"
+        Me.grpAccorpamento.Size = New System.Drawing.Size(529, 61)
+        Me.grpAccorpamento.TabIndex = 20
+        Me.grpAccorpamento.TabStop = False
         '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(983, 525)
+        Me.Controls.Add(Me.grpAccorpamento)
         Me.Controls.Add(Me.chkApriFileAlTermine)
         Me.Controls.Add(Me.chkRinomina)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.cboCartellaExport)
         Me.Controls.Add(Me.grpOrario)
         Me.Controls.Add(Me.rbPercorsoCartella)
         Me.Controls.Add(Me.rbSingolo)
@@ -376,6 +401,8 @@ Partial Class FileTxt
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpOrario.ResumeLayout(False)
         Me.grpOrario.PerformLayout()
+        Me.grpAccorpamento.ResumeLayout(False)
+        Me.grpAccorpamento.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -399,8 +426,6 @@ Partial Class FileTxt
     Friend WithEvents txtAlle As DateTimePicker
     Friend WithEvents chkAlle As CheckBox
     Friend WithEvents chkDalle As CheckBox
-    Friend WithEvents cboCartellaExport As ComboBox
-    Friend WithEvents Label5 As Label
     Friend WithEvents chkRinomina As CheckBox
     Friend WithEvents Numero As DataGridViewTextBoxColumn
     Friend WithEvents NomeFile As DataGridViewTextBoxColumn
@@ -409,4 +434,8 @@ Partial Class FileTxt
     Friend WithEvents rbModificati As RadioButton
     Friend WithEvents rbCreati As RadioButton
     Friend WithEvents chkApriFileAlTermine As CheckBox
+    Friend WithEvents chkAccorpaFile As CheckBox
+    Friend WithEvents txtPatternAccorpamento As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents grpAccorpamento As GroupBox
 End Class

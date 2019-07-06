@@ -18,6 +18,10 @@ Public Class FileTxt
     End Class
 
     Private pattern As String
+    Private destFolder As String
+    Private destFolderName As String
+    Private currentFolder As String
+    Private rightNameLengthForAccorpation As Integer = 10
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
@@ -47,9 +51,30 @@ Public Class FileTxt
             ' ... elimina righe precedente selezione
             Me.grdFiles.Rows.Clear()
 
+            ' ... cartella corrente
+            currentFolder = IO.Directory.GetParent(My.Settings.RootFolder).FullName
+
+            ' ... nuova destinazione cartelle e files
+            destFolder = IO.Path.Combine(currentFolder, "_" + IO.Path.GetFileName(My.Settings.RootFolder))
+            destFolderName = IO.Path.GetFileName(destFolder)
+            Try
+                If IO.Directory.Exists(destFolder) Then IO.Directory.Delete(destFolder, True)
+            Catch ex As Exception
+                If ex.InnerException Is Nothing Then
+                    MsgBox(ex.Message)
+                Else
+                    MsgBox(ex.InnerException.Message)
+                End If
+                Me.Enabled = True
+                Return
+            End Try
+
+            ' ... crea copia della struttura cartelle e files
+            CopyFolder(My.Settings.RootFolder, destFolder)
+
             ' ... argomento per backgroundworker
             Dim argument As New Arg
-            argument.PercorsoIniziale = Me.txtFolder.Text
+            argument.PercorsoIniziale = destFolder
             If chkDalle.Checked Then argument.Dalle = txtDalle.Value
             If chkAlle.Checked Then argument.Alle = txtAlle.Value
 
@@ -81,33 +106,16 @@ Public Class FileTxt
             Dim tempFolder As String = System.IO.Path.GetTempPath()
             Dim folderExport As String = System.IO.Path.GetTempPath()
 
-            My.Settings.ExportFolder = cboCartellaExport.SelectedItem.ToString
-            My.Settings.Save()
-
-            ' ... cartella destinazione
-            Select Case cboCartellaExport.SelectedItem.ToString
-
-                Case "... chiedi"
-                    If fbd.ShowDialog = DialogResult.OK Then
-                        folderExport = fbd.SelectedPath
-                    Else
-                        Return
-                    End If
-                Case "Desktop"
-                    folderExport = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-                Case "Documenti"
-                    folderExport = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                Case "Temp"
-                    folderExport = System.IO.Path.GetTempPath()
-                Case "Download"
-                    folderExport = GetDownloadFolderPath()
-                Case Else
-                    ' continua: usa la temp
-            End Select
-
             ' ... nome file temporaneo export
-            Dim csv As String = IO.Path.Combine(tempFolder, IO.Path.GetRandomFileName) + ".csv"
-            Dim xls As String = IO.Path.Combine(folderExport, IO.Path.GetRandomFileName) + ".xlsx"
+            Dim csv As String = IO.Path.Combine(currentFolder, destFolderName) + ".csv"
+            Dim xls As String = IO.Path.Combine(currentFolder, destFolderName) + ".xlsx"
+
+            Try
+                IO.File.Delete(csv)
+                IO.File.Delete(xls)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
 
             Dim result As New List(Of String)
 
@@ -142,8 +150,14 @@ Public Class FileTxt
 
             End Using
 
+            ' ... elimina file csv
+            IO.File.Delete(csv)
+
             ' ... apre il file
             If chkApriFileAlTermine.Checked Then System.Diagnostics.Process.Start(xls)
+
+            ' ... accorpa file
+            If chkAccorpaFile.Checked Then AccorpaFile
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -158,7 +172,6 @@ Public Class FileTxt
         Me.txtFiltro.Text = My.Settings.Filtro
         Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
-        Me.cboCartellaExport.SelectedItem = My.Settings.ExportFolder
         Me.rbCreati.Checked = My.Settings.Creati = "C"
 
         If String.IsNullOrEmpty(My.Settings.Dalle) Then
@@ -260,4 +273,58 @@ Public Class FileTxt
         Return Registry.GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString()
     End Function
 
+    Private Sub AccorpaFile()
+
+        AccorpaFileRecursione(destFolder)
+
+    End Sub
+
+    Private Sub AccorpaFileRecursione(source As String)
+
+        Dim tipi As IEnumerable(Of String) = IO.Directory.GetFiles(source).Cast(Of String).GroupBy(Function(x) x.Substring(x.Length - rightNameLengthForAccorpation)).Select(Function(x) x.Key)
+
+        For Each t As String In tipi
+            Dim content As String = String.Empty
+            For Each f As String In IO.Directory.GetFiles(source, "*" + t)
+                content += IO.File.ReadAllText(f)
+            Next
+            If content.Length > 0 Then
+                Dim newFile As String = IO.Path.Combine(source, t)
+                IO.File.WriteAllText(newFile, content)
+            End If
+        Next
+
+
+        For Each d As String In IO.Directory.GetDirectories(source, "*", IO.SearchOption.AllDirectories)
+            AccorpaFileRecursione(d)
+        Next
+
+    End Sub
+
+    Private Sub CopyFolder(ByVal sourceFolder As String, ByVal destFolder As String)
+
+        If Not IO.Directory.Exists(destFolder) Then IO.Directory.CreateDirectory(destFolder)
+
+        Dim files As String() = IO.Directory.GetFiles(sourceFolder)
+
+        For Each file As String In files
+            Dim name As String = IO.Path.GetFileName(file)
+            Dim dest As String = IO.Path.Combine(destFolder, name)
+            IO.File.Copy(file, dest)
+        Next
+
+        Dim folders As String() = IO.Directory.GetDirectories(sourceFolder)
+
+        For Each folder As String In folders
+            Dim name As String = IO.Path.GetFileName(folder)
+            Dim dest As String = IO.Path.Combine(destFolder, name)
+            CopyFolder(folder, dest)
+        Next
+    End Sub
+
+    Private Sub chkAccorpaFile_CheckedChanged(sender As Object, e As EventArgs) Handles chkAccorpaFile.CheckedChanged
+        txtPatternAccorpamento.Enabled = chkAccorpaFile.Checked
+    End Sub
+
 End Class
+
