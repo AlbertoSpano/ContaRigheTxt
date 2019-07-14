@@ -22,12 +22,8 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
-        Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btnScegli = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFiltro = New System.Windows.Forms.TextBox()
@@ -54,6 +50,10 @@ Partial Class FileTxt
         Me.txtPatternAccorpamento = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.grpAccorpamento = New System.Windows.Forms.GroupBox()
+        Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullPath = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Righe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.grpAccorpamento.SuspendLayout()
@@ -79,36 +79,6 @@ Partial Class FileTxt
         Me.grdFiles.Size = New System.Drawing.Size(926, 250)
         Me.grdFiles.TabIndex = 0
         Me.grdFiles.TabStop = False
-        '
-        'Numero
-        '
-        Me.Numero.HeaderText = "#"
-        Me.Numero.Name = "Numero"
-        Me.Numero.ReadOnly = True
-        Me.Numero.Width = 60
-        '
-        'NomeFile
-        '
-        Me.NomeFile.HeaderText = "Cartella"
-        Me.NomeFile.Name = "NomeFile"
-        Me.NomeFile.ReadOnly = True
-        Me.NomeFile.Width = 500
-        '
-        'FullPath
-        '
-        Me.FullPath.HeaderText = "Nome file"
-        Me.FullPath.Name = "FullPath"
-        Me.FullPath.ReadOnly = True
-        Me.FullPath.Width = 200
-        '
-        'Righe
-        '
-        DataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle12.Format = "N"
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle12
-        Me.Righe.HeaderText = "Righe"
-        Me.Righe.Name = "Righe"
-        Me.Righe.ReadOnly = True
         '
         'btnScegli
         '
@@ -373,6 +343,37 @@ Partial Class FileTxt
         Me.grpAccorpamento.TabIndex = 20
         Me.grpAccorpamento.TabStop = False
         '
+        'Numero
+        '
+        Me.Numero.HeaderText = "#"
+        Me.Numero.Name = "Numero"
+        Me.Numero.ReadOnly = True
+        Me.Numero.Width = 60
+        '
+        'NomeFile
+        '
+        Me.NomeFile.HeaderText = "Cartella"
+        Me.NomeFile.Name = "NomeFile"
+        Me.NomeFile.ReadOnly = True
+        Me.NomeFile.Width = 500
+        '
+        'FullPath
+        '
+        Me.FullPath.HeaderText = "Nome file"
+        Me.FullPath.Name = "FullPath"
+        Me.FullPath.ReadOnly = True
+        Me.FullPath.Width = 200
+        '
+        'Righe
+        '
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "N0"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Righe.HeaderText = "Righe"
+        Me.Righe.Name = "Righe"
+        Me.Righe.ReadOnly = True
+        '
         'FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
@@ -427,10 +428,6 @@ Partial Class FileTxt
     Friend WithEvents chkAlle As CheckBox
     Friend WithEvents chkDalle As CheckBox
     Friend WithEvents chkRinomina As CheckBox
-    Friend WithEvents Numero As DataGridViewTextBoxColumn
-    Friend WithEvents NomeFile As DataGridViewTextBoxColumn
-    Friend WithEvents FullPath As DataGridViewTextBoxColumn
-    Friend WithEvents Righe As DataGridViewTextBoxColumn
     Friend WithEvents rbModificati As RadioButton
     Friend WithEvents rbCreati As RadioButton
     Friend WithEvents chkApriFileAlTermine As CheckBox
@@ -438,4 +435,8 @@ Partial Class FileTxt
     Friend WithEvents txtPatternAccorpamento As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents grpAccorpamento As GroupBox
+    Friend WithEvents Numero As DataGridViewTextBoxColumn
+    Friend WithEvents NomeFile As DataGridViewTextBoxColumn
+    Friend WithEvents FullPath As DataGridViewTextBoxColumn
+    Friend WithEvents Righe As DataGridViewTextBoxColumn
 End Class

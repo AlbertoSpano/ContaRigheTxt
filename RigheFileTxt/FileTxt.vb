@@ -22,8 +22,13 @@ Public Class FileTxt
     Private destFolderName As String
     Private currentFolder As String
     Private rightNameLengthForAccorpation As Integer = 10
+    Private cartellaParziali As String = "Parziali"
+    Private rnd As Random
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
+
+        Randomize(Now.Ticks)
+        rnd = New Random(10000)
 
         pattern = txtFiltro.Text
 
@@ -281,25 +286,41 @@ Public Class FileTxt
 
     Private Sub AccorpaFileRecursione(source As String)
 
+        ' ... se trattasi della cartella parziale continua
+        If IO.Path.GetFileName(source) = cartellaParziali Then Return
+
+        ' ... elenco tipi
         Dim tipi As IEnumerable(Of String) = IO.Directory.GetFiles(source).Cast(Of String).GroupBy(Function(x) x.Substring(x.Length - rightNameLengthForAccorpation)).Select(Function(x) x.Key)
+
+        ' ... crea cartella parziali
+        Dim pathParziali As String = IO.Path.Combine(source, cartellaParziali)
+        If Not IO.Directory.Exists(pathParziali) Then IO.Directory.CreateDirectory(pathParziali)
 
         For Each t As String In tipi
             Dim content As String = String.Empty
             For Each f As String In IO.Directory.GetFiles(source, "*" + t)
+                ' ... unisce contenuto file
                 content += IO.File.ReadAllText(f)
+                ' ... sposta il file nella cartella Parziali
+                IO.File.Move(f, IO.Path.Combine(pathParziali, IO.Path.GetFileName(f)))
             Next
             If content.Length > 0 Then
-                Dim newFile As String = IO.Path.Combine(source, t)
+                ' ... crea nuovo file con contenuto unito
+                Dim newFile As String = NomeFileAccorpato(source, t)
                 IO.File.WriteAllText(newFile, content)
             End If
         Next
 
-
+        ' ... avvia la ricorsione
         For Each d As String In IO.Directory.GetDirectories(source, "*", IO.SearchOption.AllDirectories)
             AccorpaFileRecursione(d)
         Next
 
     End Sub
+
+    Private Function NomeFileAccorpato(source As String, tipo As String) As String
+        Return IO.Path.Combine(source, String.Format("{0:00000}_{1}", rnd.Next(10000), tipo))
+    End Function
 
     Private Sub CopyFolder(ByVal sourceFolder As String, ByVal destFolder As String)
 
