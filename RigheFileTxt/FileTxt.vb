@@ -23,12 +23,8 @@ Public Class FileTxt
     Private currentFolder As String
     Private rightNameLengthForAccorpation As Integer = 10
     Private cartellaParziali As String = "Parziali"
-    Private rnd As Random
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
-
-        Randomize(Now.Ticks)
-        rnd = New Random(10000)
 
         pattern = txtFiltro.Text
 
@@ -289,27 +285,31 @@ Public Class FileTxt
         ' ... se trattasi della cartella parziale continua
         If IO.Path.GetFileName(source) = cartellaParziali Then Return
 
-        ' ... elenco tipi
-        Dim tipi As IEnumerable(Of String) = IO.Directory.GetFiles(source).Cast(Of String).GroupBy(Function(x) x.Substring(x.Length - rightNameLengthForAccorpation)).Select(Function(x) x.Key)
+        If source <> destFolder Then
 
-        ' ... crea cartella parziali
-        Dim pathParziali As String = IO.Path.Combine(source, cartellaParziali)
-        If Not IO.Directory.Exists(pathParziali) Then IO.Directory.CreateDirectory(pathParziali)
+            ' ... elenco tipi
+            Dim tipi As IEnumerable(Of String) = IO.Directory.GetFiles(source).Cast(Of String).GroupBy(Function(x) x.Substring(x.Length - rightNameLengthForAccorpation)).Select(Function(x) x.Key)
 
-        For Each t As String In tipi
-            Dim content As String = String.Empty
-            For Each f As String In IO.Directory.GetFiles(source, "*" + t)
-                ' ... unisce contenuto file
-                content += IO.File.ReadAllText(f)
-                ' ... sposta il file nella cartella Parziali
-                IO.File.Move(f, IO.Path.Combine(pathParziali, IO.Path.GetFileName(f)))
+            ' ... crea cartella parziali
+            Dim pathParziali As String = IO.Path.Combine(source, cartellaParziali)
+            If Not IO.Directory.Exists(pathParziali) Then IO.Directory.CreateDirectory(pathParziali)
+
+            For Each t As String In tipi
+                Dim content As String = String.Empty
+                For Each f As String In IO.Directory.GetFiles(source, "*" + t)
+                    ' ... unisce contenuto file
+                    content += IO.File.ReadAllText(f)
+                    ' ... sposta il file nella cartella Parziali
+                    IO.File.Move(f, IO.Path.Combine(pathParziali, IO.Path.GetFileName(f)))
+                Next
+                If content.Length > 0 Then
+                    ' ... crea nuovo file con contenuto unito
+                    Dim newFile As String = NomeFileAccorpato(source, t)
+                    IO.File.WriteAllText(newFile, content)
+                End If
             Next
-            If content.Length > 0 Then
-                ' ... crea nuovo file con contenuto unito
-                Dim newFile As String = NomeFileAccorpato(source, t)
-                IO.File.WriteAllText(newFile, content)
-            End If
-        Next
+
+        End If
 
         ' ... avvia la ricorsione
         For Each d As String In IO.Directory.GetDirectories(source, "*", IO.SearchOption.AllDirectories)
@@ -319,7 +319,7 @@ Public Class FileTxt
     End Sub
 
     Private Function NomeFileAccorpato(source As String, tipo As String) As String
-        Return IO.Path.Combine(source, String.Format("{0:00000}_{1}", rnd.Next(10000), tipo))
+        Return IO.Path.Combine(source, String.Format("{0}_{1}", IO.Path.GetFileName(source), tipo))
     End Function
 
     Private Sub CopyFolder(ByVal sourceFolder As String, ByVal destFolder As String)
