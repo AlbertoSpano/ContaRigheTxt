@@ -125,6 +125,102 @@ Namespace My
                 Me("Creati") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
+        Public Property ColServpsDa() As Integer
+            Get
+                Return CType(Me("ColServpsDa"),Integer)
+            End Get
+            Set
+                Me("ColServpsDa") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("13")>  _
+        Public Property ColServpsA() As Integer
+            Get
+                Return CType(Me("ColServpsA"),Integer)
+            End Get
+            Set
+                Me("ColServpsA") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("323")>  _
+        Public Property ColServpaValoreDa() As Integer
+            Get
+                Return CType(Me("ColServpaValoreDa"),Integer)
+            End Get
+            Set
+                Me("ColServpaValoreDa") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("324")>  _
+        Public Property ColServpaValoreA() As Integer
+            Get
+                Return CType(Me("ColServpaValoreA"),Integer)
+            End Get
+            Set
+                Me("ColServpaValoreA") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property RinominaConNumeroRighe() As Boolean
+            Get
+                Return CType(Me("RinominaConNumeroRighe"),Boolean)
+            End Get
+            Set
+                Me("RinominaConNumeroRighe") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property AccorpaFile() As Boolean
+            Get
+                Return CType(Me("AccorpaFile"),Boolean)
+            End Get
+            Set
+                Me("AccorpaFile") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property CreaCodiceCiclo() As Boolean
+            Get
+                Return CType(Me("CreaCodiceCiclo"),Boolean)
+            End Get
+            Set
+                Me("CreaCodiceCiclo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("6")>  _
+        Public Property LunghezzaDxTipoAccorpa() As Integer
+            Get
+                Return CType(Me("LunghezzaDxTipoAccorpa"),Integer)
+            End Get
+            Set
+                Me("LunghezzaDxTipoAccorpa") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

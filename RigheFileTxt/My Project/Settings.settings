@@ -20,5 +20,29 @@
     <Setting Name="Creati" Type="System.String" Scope="User">
       <Value Profile="(Default)">M</Value>
     </Setting>
+    <Setting Name="ColServpsDa" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="ColServpsA" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">13</Value>
+    </Setting>
+    <Setting Name="ColServpaValoreDa" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">323</Value>
+    </Setting>
+    <Setting Name="ColServpaValoreA" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">324</Value>
+    </Setting>
+    <Setting Name="RinominaConNumeroRighe" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AccorpaFile" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CreaCodiceCiclo" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LunghezzaDxTipoAccorpa" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

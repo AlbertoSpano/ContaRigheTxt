@@ -32,6 +32,7 @@ Public Class FileTxt
         My.Settings.Dalle = If(Me.chkDalle.Checked, Me.txtDalle.Text, Nothing)
         My.Settings.Alle = If(Me.chkAlle.Checked, Me.txtAlle.Text, Nothing)
         My.Settings.Creati = If(rbCreati.Checked, "C", "M")
+
         My.Settings.Save()
 
         Me.fbd.ShowNewFolderButton = False
@@ -107,6 +108,13 @@ Public Class FileTxt
             Dim tempFolder As String = System.IO.Path.GetTempPath()
             Dim folderExport As String = System.IO.Path.GetTempPath()
 
+            My.Settings.AccorpaFile = Me.chkAccorpaFile.Checked
+            My.Settings.CreaCodiceCiclo = Me.chkCreaCodiceCiclo.Checked
+            My.Settings.LunghezzaDxTipoAccorpa = CInt(Me.txtPatternAccorpamento.Text)
+
+            My.Settings.Save()
+
+
             ' ... nome file temporaneo export
             Dim csv As String = IO.Path.Combine(currentFolder, destFolderName) + ".csv"
             Dim xls As String = IO.Path.Combine(currentFolder, destFolderName) + ".xlsx"
@@ -136,20 +144,7 @@ Public Class FileTxt
             IO.File.WriteAllLines(csv, result.ToArray)
 
             ' ... crea file di excel
-            Using ex As New OfficeOpenXml.ExcelPackage(New IO.FileInfo(xls))
-
-                Dim ExcelTextFormat As New ExcelTextFormat()
-                ExcelTextFormat.Delimiter = Chr(9)
-
-                Dim worksheet As ExcelWorksheet = ex.Workbook.Worksheets.Add("Foglio 1")
-
-                worksheet.Cells("A1").LoadFromText(New IO.FileInfo(csv), ExcelTextFormat, OfficeOpenXml.Table.TableStyles.Light9, True)
-
-                worksheet.Cells(worksheet.Dimension.Address).AutoFitColumns()
-
-                ex.Save()
-
-            End Using
+            CreaXls(csv, xls)
 
             ' ... elimina file csv
             IO.File.Delete(csv)
@@ -158,7 +153,11 @@ Public Class FileTxt
             If chkApriFileAlTermine.Checked Then System.Diagnostics.Process.Start(xls)
 
             ' ... accorpa file
-            If chkAccorpaFile.Checked Then AccorpaFile
+            If chkAccorpaFile.Checked Then AccorpaFile()
+
+            ' ... codice/ciclo
+            If chkCreaCodiceCiclo.Checked Then CollegaFileRecursione(destFolder)
+
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -174,6 +173,16 @@ Public Class FileTxt
         Me.fbd.SelectedPath = My.Settings.RootFolder
         Me.txtPrefisso.Text = My.Settings.Prefisso
         Me.rbCreati.Checked = My.Settings.Creati = "C"
+        Me.chkRinomina.Checked = My.Settings.RinominaConNumeroRighe
+
+        Me.chkAccorpaFile.Checked = My.Settings.AccorpaFile
+        Me.txtPatternAccorpamento.Text = My.Settings.LunghezzaDxTipoAccorpa.ToString
+        Me.chkCreaCodiceCiclo.Checked = My.Settings.CreaCodiceCiclo
+
+        Me.txtColServpsDa.Text = My.Settings.ColServpsDa.ToString
+        Me.txtColServpsA.Text = My.Settings.ColServpsA.ToString
+        Me.txtColServpsValoreDa.Text = My.Settings.ColServpaValoreDa.ToString
+        Me.txtColServpsValoreA.Text = My.Settings.ColServpaValoreA.ToString
 
         If String.IsNullOrEmpty(My.Settings.Dalle) Then
             chkDalle.Checked = False
@@ -345,6 +354,118 @@ Public Class FileTxt
 
     Private Sub chkAccorpaFile_CheckedChanged(sender As Object, e As EventArgs) Handles chkAccorpaFile.CheckedChanged
         txtPatternAccorpamento.Enabled = chkAccorpaFile.Checked
+    End Sub
+
+    Private Sub tabSettings_Click(sender As Object, e As EventArgs) Handles tabSettings.Click
+        If tabSettings.Height < 270 Then
+            tabSettings.Height = 270
+            lnkToggleSettings.Text = "Nascondi opzioni"
+        End If
+    End Sub
+
+    Private Sub btnCollega_Click(sender As Object, e As EventArgs)
+
+        If Not IsNumeric(Me.txtColServpsDa.Text) Then
+            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+            Me.txtColServpsDa.Focus()
+            Return
+        End If
+
+        If Not IsNumeric(Me.txtColServpsA.Text) Then
+            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+            Me.txtColServpsA.Focus()
+            Return
+        End If
+
+        If Not IsNumeric(Me.txtColServpsValoreDa.Text) Then
+            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+            Me.txtColServpsValoreDa.Focus()
+            Return
+        End If
+
+        If Not IsNumeric(Me.txtColServpsValoreA.Text) Then
+            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+            Me.txtColServpsValoreA.Focus()
+            Return
+        End If
+
+        My.Settings.ColServpsDa = CInt(Me.txtColServpsDa.Text)
+        My.Settings.ColServpsA = CInt(Me.txtColServpsA.Text)
+        My.Settings.ColServpaValoreDa = CInt(Me.txtColServpsValoreDa.Text)
+        My.Settings.ColServpaValoreA = CInt(Me.txtColServpsValoreA.Text)
+        My.Settings.Save()
+
+        CollegaFileRecursione(destFolder)
+
+        MsgBox("File creato con successo!")
+
+    End Sub
+
+    Private Sub CollegaFileRecursione(source As String)
+
+        ' ... se trattasi della cartella parziale continua
+        If IO.Path.GetFileName(source) = cartellaParziali Then Return
+
+        For Each f As String In IO.Directory.GetFiles(source, "*SERVPS.hst")
+            Dim fCodCiclo As String = IO.Path.Combine(source, IO.Path.GetFileName(source).Split(" "c)(0))
+            Dim ret As New List(Of String)
+            ret.Add(String.Format("{0}{1}{2}", "Codice", vbTab, "Ciclo"))
+            Dim righe As String() = IO.File.ReadAllLines(f)
+            For Each riga As String In righe
+                If riga.Length >= My.Settings.ColServpsA And riga.Length >= My.Settings.ColServpaValoreA Then
+                    Dim cod As String = riga.Substring(My.Settings.ColServpsDa - 1, My.Settings.ColServpsA - My.Settings.ColServpsDa + 1)
+                    Dim ciclo As String = riga.Substring(My.Settings.ColServpaValoreDa - 1, My.Settings.ColServpaValoreA - My.Settings.ColServpaValoreDa + 1)
+                    If IsNumeric(cod) And IsNumeric(ciclo) Then
+                        ret.Add(String.Format("{0}{1}{2}", cod, vbTab, ciclo))
+                    End If
+                End If
+            Next
+            IO.File.WriteAllLines(fCodCiclo + ".csv", ret)
+            CreaXls(fCodCiclo + ".csv", fCodCiclo + ".xlsx")
+            IO.File.Delete(fCodCiclo + ".csv")
+        Next
+
+        ' ... avvia la ricorsione
+        For Each d As String In IO.Directory.GetDirectories(source, "*", IO.SearchOption.AllDirectories)
+            CollegaFileRecursione(d)
+        Next
+
+    End Sub
+
+    Private Sub grdFiles_MouseClick(sender As Object, e As MouseEventArgs) Handles grdFiles.MouseClick
+        If tabSettings.Height > 28 Then
+            tabSettings.Height = 28
+            lnkToggleSettings.Text = "Mostra opzioni"
+        End If
+    End Sub
+
+    Private Sub CreaXls(sourceCsvPath As String, destXlsPath As String)
+
+        ' ... crea file di excel
+        Using ex As New OfficeOpenXml.ExcelPackage(New IO.FileInfo(destXlsPath))
+
+            Dim ExcelTextFormat As New ExcelTextFormat()
+            ExcelTextFormat.Delimiter = Chr(9)
+
+            Dim worksheet As ExcelWorksheet = ex.Workbook.Worksheets.Add("Foglio 1")
+
+            worksheet.Cells("A1").LoadFromText(New IO.FileInfo(sourceCsvPath), ExcelTextFormat, OfficeOpenXml.Table.TableStyles.Light9, True)
+
+            worksheet.Cells(worksheet.Dimension.Address).AutoFitColumns()
+
+            ex.Save()
+
+        End Using
+    End Sub
+
+    Private Sub lnkToggleSettings_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkToggleSettings.LinkClicked
+        If tabSettings.Height > 28 Then
+            tabSettings.Height = 28
+            lnkToggleSettings.Text = "Mostra opzioni"
+        Else
+            tabSettings.Height = 270
+            lnkToggleSettings.Text = "Nascondi opzioni"
+        End If
     End Sub
 
 End Class
