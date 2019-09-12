@@ -23,6 +23,7 @@ Public Class FileTxt
     Private currentFolder As String
     Private rightNameLengthForAccorpation As Integer = 10
     Private cartellaParziali As String = "Parziali"
+    Private sepNumRighe As Char = "@"c
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
@@ -263,7 +264,7 @@ Public Class FileTxt
             ' ... rinomina cartelle
             If chkRinomina.Checked Then
                 For Each f As Riga In CType(e.Result, List(Of Riga)).Where(Function(x) Not String.IsNullOrEmpty(x.Cartella))
-                    IO.Directory.Move(f.Cartella, String.Format("{0} {1}", f.Cartella, f.Righe))
+                    IO.Directory.Move(f.Cartella, String.Format("{0}{1}{2}", f.Cartella, sepNumRighe, f.Righe))
                 Next
             End If
         End If
@@ -284,9 +285,7 @@ Public Class FileTxt
     End Function
 
     Private Sub AccorpaFile()
-
         AccorpaFileRecursione(destFolder)
-
     End Sub
 
     Private Sub AccorpaFileRecursione(source As String)
@@ -407,7 +406,7 @@ Public Class FileTxt
         If IO.Path.GetFileName(source) = cartellaParziali Then Return
 
         For Each f As String In IO.Directory.GetFiles(source, "*SERVPS.hst")
-            Dim fCodCiclo As String = IO.Path.Combine(source, IO.Path.GetFileName(source).Split(" "c)(0))
+            Dim fCodCiclo As String = IO.Path.Combine(destFolder, IO.Path.GetFileName(source).Split(sepNumRighe)(0))
             Dim ret As New List(Of String)
             ret.Add(String.Format("{0}{1}{2}", "Codice", vbTab, "Ciclo"))
             Dim righe As String() = IO.File.ReadAllLines(f)
