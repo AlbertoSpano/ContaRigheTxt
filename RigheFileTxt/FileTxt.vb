@@ -109,6 +109,38 @@ Public Class FileTxt
             Dim tempFolder As String = System.IO.Path.GetTempPath()
             Dim folderExport As String = System.IO.Path.GetTempPath()
 
+            If chkCreaCodiceCiclo.Checked Then
+                If Not IsNumeric(Me.txtColServpsDa.Text) Then
+                    MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+                    Me.txtColServpsDa.Focus()
+                    Return
+                End If
+
+                If Not IsNumeric(Me.txtColServpsA.Text) Then
+                    MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+                    Me.txtColServpsA.Focus()
+                    Return
+                End If
+
+                If Not IsNumeric(Me.txtColServpsValoreDa.Text) Then
+                    MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+                    Me.txtColServpsValoreDa.Focus()
+                    Return
+                End If
+
+                If Not IsNumeric(Me.txtColServpsValoreA.Text) Then
+                    MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
+                    Me.txtColServpsValoreA.Focus()
+                    Return
+                End If
+
+                My.Settings.ColServpsDa = CInt(Me.txtColServpsDa.Text)
+                My.Settings.ColServpsA = CInt(Me.txtColServpsA.Text)
+                My.Settings.ColServpaValoreDa = CInt(Me.txtColServpsValoreDa.Text)
+                My.Settings.ColServpaValoreA = CInt(Me.txtColServpsValoreA.Text)
+
+            End If
+
             My.Settings.AccorpaFile = Me.chkAccorpaFile.Checked
             My.Settings.CreaCodiceCiclo = Me.chkCreaCodiceCiclo.Checked
             My.Settings.LunghezzaDxTipoAccorpa = CInt(Me.txtPatternAccorpamento.Text)
@@ -159,6 +191,9 @@ Public Class FileTxt
             ' ... codice/ciclo
             If chkCreaCodiceCiclo.Checked Then CollegaFileRecursione(destFolder)
 
+            ToggleOpzioni()
+
+            MsgBox("Esportazione terminata!")
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -242,6 +277,8 @@ Public Class FileTxt
 
     Private Sub bw_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bw.RunWorkerCompleted
 
+        ToggleOpzioni()
+
         Me.grdFiles.Rows.Clear()
 
         ' ... ricopia i file nella griglia
@@ -268,7 +305,6 @@ Public Class FileTxt
                 Next
             End If
         End If
-
 
     End Sub
 
@@ -356,48 +392,7 @@ Public Class FileTxt
     End Sub
 
     Private Sub tabSettings_Click(sender As Object, e As EventArgs) Handles tabSettings.Click
-        If tabSettings.Height < 270 Then
-            tabSettings.Height = 270
-            lnkToggleSettings.Text = "Nascondi opzioni"
-        End If
-    End Sub
-
-    Private Sub btnCollega_Click(sender As Object, e As EventArgs)
-
-        If Not IsNumeric(Me.txtColServpsDa.Text) Then
-            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
-            Me.txtColServpsDa.Focus()
-            Return
-        End If
-
-        If Not IsNumeric(Me.txtColServpsA.Text) Then
-            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
-            Me.txtColServpsA.Focus()
-            Return
-        End If
-
-        If Not IsNumeric(Me.txtColServpsValoreDa.Text) Then
-            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
-            Me.txtColServpsValoreDa.Focus()
-            Return
-        End If
-
-        If Not IsNumeric(Me.txtColServpsValoreA.Text) Then
-            MsgBox("Campo non numerico!", MsgBoxStyle.Critical)
-            Me.txtColServpsValoreA.Focus()
-            Return
-        End If
-
-        My.Settings.ColServpsDa = CInt(Me.txtColServpsDa.Text)
-        My.Settings.ColServpsA = CInt(Me.txtColServpsA.Text)
-        My.Settings.ColServpaValoreDa = CInt(Me.txtColServpsValoreDa.Text)
-        My.Settings.ColServpaValoreA = CInt(Me.txtColServpsValoreA.Text)
-        My.Settings.Save()
-
-        CollegaFileRecursione(destFolder)
-
-        MsgBox("File creato con successo!")
-
+        If Not OpzioniIsOpen() Then ToggleOpzioni()
     End Sub
 
     Private Sub CollegaFileRecursione(source As String)
@@ -432,10 +427,7 @@ Public Class FileTxt
     End Sub
 
     Private Sub grdFiles_MouseClick(sender As Object, e As MouseEventArgs) Handles grdFiles.MouseClick
-        If tabSettings.Height > 28 Then
-            tabSettings.Height = 28
-            lnkToggleSettings.Text = "Mostra opzioni"
-        End If
+        ToggleOpzioni()
     End Sub
 
     Private Sub CreaXls(sourceCsvPath As String, destXlsPath As String)
@@ -458,6 +450,10 @@ Public Class FileTxt
     End Sub
 
     Private Sub lnkToggleSettings_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkToggleSettings.LinkClicked
+        ToggleOpzioni()
+    End Sub
+
+    Private Sub ToggleOpzioni()
         If tabSettings.Height > 28 Then
             tabSettings.Height = 28
             lnkToggleSettings.Text = "Mostra opzioni"
@@ -466,6 +462,10 @@ Public Class FileTxt
             lnkToggleSettings.Text = "Nascondi opzioni"
         End If
     End Sub
+
+    Private Function OpzioniIsOpen() As Boolean
+        Return tabSettings.Height > 28
+    End Function
 
 End Class
 

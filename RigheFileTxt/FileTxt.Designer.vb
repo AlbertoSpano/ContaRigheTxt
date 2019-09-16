@@ -22,7 +22,7 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
         Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -96,7 +96,7 @@ Partial Class FileTxt
         Me.grdFiles.ReadOnly = True
         Me.grdFiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.grdFiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdFiles.Size = New System.Drawing.Size(1000, 465)
+        Me.grdFiles.Size = New System.Drawing.Size(1040, 465)
         Me.grdFiles.TabIndex = 0
         Me.grdFiles.TabStop = False
         '
@@ -123,10 +123,10 @@ Partial Class FileTxt
         '
         'Righe
         '
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle4.Format = "N0"
-        DataGridViewCellStyle4.NullValue = Nothing
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle6.Format = "N0"
+        DataGridViewCellStyle6.NullValue = Nothing
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle6
         Me.Righe.HeaderText = "Righe"
         Me.Righe.Name = "Righe"
         Me.Righe.ReadOnly = True
@@ -135,10 +135,10 @@ Partial Class FileTxt
         '
         Me.btnScegli.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnScegli.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnScegli.Location = New System.Drawing.Point(755, 44)
+        Me.btnScegli.Location = New System.Drawing.Point(791, 44)
         Me.btnScegli.Margin = New System.Windows.Forms.Padding(4)
         Me.btnScegli.Name = "btnScegli"
-        Me.btnScegli.Size = New System.Drawing.Size(154, 30)
+        Me.btnScegli.Size = New System.Drawing.Size(136, 30)
         Me.btnScegli.TabIndex = 13
         Me.btnScegli.Text = "Scegli cartella ..."
         Me.btnScegli.UseVisualStyleBackColor = True
@@ -166,10 +166,10 @@ Partial Class FileTxt
         Me.btnEsporta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnEsporta.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnEsporta.Enabled = False
-        Me.btnEsporta.Location = New System.Drawing.Point(917, 44)
+        Me.btnEsporta.Location = New System.Drawing.Point(935, 44)
         Me.btnEsporta.Margin = New System.Windows.Forms.Padding(4)
         Me.btnEsporta.Name = "btnEsporta"
-        Me.btnEsporta.Size = New System.Drawing.Size(114, 30)
+        Me.btnEsporta.Size = New System.Drawing.Size(136, 30)
         Me.btnEsporta.TabIndex = 15
         Me.btnEsporta.Text = "Esegui"
         Me.btnEsporta.UseVisualStyleBackColor = True
@@ -182,7 +182,7 @@ Partial Class FileTxt
         Me.txtFolder.MaxLength = 12
         Me.txtFolder.Name = "txtFolder"
         Me.txtFolder.ReadOnly = True
-        Me.txtFolder.Size = New System.Drawing.Size(716, 23)
+        Me.txtFolder.Size = New System.Drawing.Size(752, 23)
         Me.txtFolder.TabIndex = 5
         Me.txtFolder.TabStop = False
         '
@@ -241,7 +241,7 @@ Partial Class FileTxt
         Me.grpOrario.Controls.Add(Me.Label4)
         Me.grpOrario.Controls.Add(Me.Label3)
         Me.grpOrario.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.grpOrario.Location = New System.Drawing.Point(480, 36)
+        Me.grpOrario.Location = New System.Drawing.Point(430, 37)
         Me.grpOrario.Name = "grpOrario"
         Me.grpOrario.Size = New System.Drawing.Size(276, 121)
         Me.grpOrario.TabIndex = 12
@@ -409,7 +409,7 @@ Partial Class FileTxt
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Location = New System.Drawing.Point(21, 89)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(886, 94)
+        Me.GroupBox1.Size = New System.Drawing.Size(669, 94)
         Me.GroupBox1.TabIndex = 21
         Me.GroupBox1.TabStop = False
         '
@@ -426,7 +426,7 @@ Partial Class FileTxt
         '
         'txtColServpsValoreA
         '
-        Me.txtColServpsValoreA.Location = New System.Drawing.Point(706, 51)
+        Me.txtColServpsValoreA.Location = New System.Drawing.Point(604, 51)
         Me.txtColServpsValoreA.MaxLength = 3
         Me.txtColServpsValoreA.Name = "txtColServpsValoreA"
         Me.txtColServpsValoreA.Size = New System.Drawing.Size(35, 23)
@@ -437,7 +437,7 @@ Partial Class FileTxt
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(679, 54)
+        Me.Label5.Location = New System.Drawing.Point(577, 54)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(21, 17)
         Me.Label5.TabIndex = 20
@@ -445,7 +445,7 @@ Partial Class FileTxt
         '
         'txtColServpsValoreDa
         '
-        Me.txtColServpsValoreDa.Location = New System.Drawing.Point(626, 51)
+        Me.txtColServpsValoreDa.Location = New System.Drawing.Point(524, 51)
         Me.txtColServpsValoreDa.MaxLength = 3
         Me.txtColServpsValoreDa.Name = "txtColServpsValoreDa"
         Me.txtColServpsValoreDa.Size = New System.Drawing.Size(35, 23)
@@ -456,7 +456,7 @@ Partial Class FileTxt
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(590, 55)
+        Me.Label7.Location = New System.Drawing.Point(488, 55)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(30, 17)
         Me.Label7.TabIndex = 18
@@ -465,7 +465,7 @@ Partial Class FileTxt
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(398, 54)
+        Me.Label11.Location = New System.Drawing.Point(296, 54)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(169, 17)
         Me.Label11.TabIndex = 17
@@ -473,7 +473,7 @@ Partial Class FileTxt
         '
         'txtColServpsA
         '
-        Me.txtColServpsA.Location = New System.Drawing.Point(706, 25)
+        Me.txtColServpsA.Location = New System.Drawing.Point(604, 25)
         Me.txtColServpsA.MaxLength = 3
         Me.txtColServpsA.Name = "txtColServpsA"
         Me.txtColServpsA.Size = New System.Drawing.Size(35, 23)
@@ -484,7 +484,7 @@ Partial Class FileTxt
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(679, 28)
+        Me.Label10.Location = New System.Drawing.Point(577, 28)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(21, 17)
         Me.Label10.TabIndex = 11
@@ -492,7 +492,7 @@ Partial Class FileTxt
         '
         'txtColServpsDa
         '
-        Me.txtColServpsDa.Location = New System.Drawing.Point(626, 25)
+        Me.txtColServpsDa.Location = New System.Drawing.Point(524, 25)
         Me.txtColServpsDa.MaxLength = 3
         Me.txtColServpsDa.Name = "txtColServpsDa"
         Me.txtColServpsDa.Size = New System.Drawing.Size(35, 23)
@@ -503,7 +503,7 @@ Partial Class FileTxt
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(590, 29)
+        Me.Label9.Location = New System.Drawing.Point(488, 29)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(30, 17)
         Me.Label9.TabIndex = 9
@@ -512,7 +512,7 @@ Partial Class FileTxt
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(398, 28)
+        Me.Label8.Location = New System.Drawing.Point(296, 28)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(183, 17)
         Me.Label8.TabIndex = 8
@@ -526,7 +526,7 @@ Partial Class FileTxt
         Me.tabSettings.Location = New System.Drawing.Point(32, 9)
         Me.tabSettings.Name = "tabSettings"
         Me.tabSettings.SelectedIndex = 0
-        Me.tabSettings.Size = New System.Drawing.Size(1000, 33)
+        Me.tabSettings.Size = New System.Drawing.Size(752, 28)
         Me.tabSettings.TabIndex = 22
         '
         'tabSel
@@ -542,7 +542,7 @@ Partial Class FileTxt
         Me.tabSel.Location = New System.Drawing.Point(4, 26)
         Me.tabSel.Name = "tabSel"
         Me.tabSel.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSel.Size = New System.Drawing.Size(992, 217)
+        Me.tabSel.Size = New System.Drawing.Size(744, 277)
         Me.tabSel.TabIndex = 0
         Me.tabSel.Text = "Opzioni selezione"
         Me.tabSel.UseVisualStyleBackColor = True
@@ -555,7 +555,7 @@ Partial Class FileTxt
         Me.tabGen.Location = New System.Drawing.Point(4, 26)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(992, 3)
+        Me.tabGen.Size = New System.Drawing.Size(744, 0)
         Me.tabGen.TabIndex = 1
         Me.tabGen.Text = "Opzioni generazione"
         Me.tabGen.UseVisualStyleBackColor = True
@@ -563,7 +563,7 @@ Partial Class FileTxt
         'lnkToggleSettings
         '
         Me.lnkToggleSettings.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.lnkToggleSettings.Location = New System.Drawing.Point(863, 12)
+        Me.lnkToggleSettings.Location = New System.Drawing.Point(907, 9)
         Me.lnkToggleSettings.Name = "lnkToggleSettings"
         Me.lnkToggleSettings.Size = New System.Drawing.Size(165, 20)
         Me.lnkToggleSettings.TabIndex = 23
@@ -575,7 +575,7 @@ Partial Class FileTxt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1044, 562)
+        Me.ClientSize = New System.Drawing.Size(1084, 562)
         Me.Controls.Add(Me.lnkToggleSettings)
         Me.Controls.Add(Me.tabSettings)
         Me.Controls.Add(Me.grdFiles)
@@ -584,7 +584,7 @@ Partial Class FileTxt
         Me.Controls.Add(Me.txtFolder)
         Me.Font = New System.Drawing.Font("Century Gothic", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.MinimumSize = New System.Drawing.Size(1060, 600)
+        Me.MinimumSize = New System.Drawing.Size(1100, 600)
         Me.Name = "FileTxt"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "File txt"
