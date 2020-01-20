@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.RigheFileTxt.FileTxt
+            Me.MainForm = Global.RigheFileTxt.Main
         End Sub
     End Class
 End Namespace

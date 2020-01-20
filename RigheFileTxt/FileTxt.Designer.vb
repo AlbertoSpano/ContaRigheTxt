@@ -22,7 +22,7 @@ Partial Class FileTxt
     'Non modificarla mediante l'editor del codice.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.grdFiles = New System.Windows.Forms.DataGridView()
         Me.Numero = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NomeFile = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -69,7 +69,11 @@ Partial Class FileTxt
         Me.tabSettings = New System.Windows.Forms.TabControl()
         Me.tabSel = New System.Windows.Forms.TabPage()
         Me.tabGen = New System.Windows.Forms.TabPage()
+        Me.btnApriXls = New System.Windows.Forms.Button()
+        Me.lblFileXlsx = New System.Windows.Forms.Label()
+        Me.chkFileXls = New System.Windows.Forms.CheckBox()
         Me.lnkToggleSettings = New System.Windows.Forms.LinkLabel()
+        Me.openFile = New System.Windows.Forms.OpenFileDialog()
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOrario.SuspendLayout()
         Me.grpAccorpamento.SuspendLayout()
@@ -123,10 +127,10 @@ Partial Class FileTxt
         '
         'Righe
         '
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
-        DataGridViewCellStyle6.Format = "N0"
-        DataGridViewCellStyle6.NullValue = Nothing
-        Me.Righe.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle1.Format = "N0"
+        DataGridViewCellStyle1.NullValue = Nothing
+        Me.Righe.DefaultCellStyle = DataGridViewCellStyle1
         Me.Righe.HeaderText = "Righe"
         Me.Righe.Name = "Righe"
         Me.Righe.ReadOnly = True
@@ -542,23 +546,57 @@ Partial Class FileTxt
         Me.tabSel.Location = New System.Drawing.Point(4, 26)
         Me.tabSel.Name = "tabSel"
         Me.tabSel.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSel.Size = New System.Drawing.Size(744, 277)
+        Me.tabSel.Size = New System.Drawing.Size(744, 0)
         Me.tabSel.TabIndex = 0
         Me.tabSel.Text = "Opzioni selezione"
         Me.tabSel.UseVisualStyleBackColor = True
         '
         'tabGen
         '
+        Me.tabGen.Controls.Add(Me.btnApriXls)
+        Me.tabGen.Controls.Add(Me.lblFileXlsx)
+        Me.tabGen.Controls.Add(Me.chkFileXls)
         Me.tabGen.Controls.Add(Me.GroupBox1)
         Me.tabGen.Controls.Add(Me.grpAccorpamento)
         Me.tabGen.Controls.Add(Me.chkApriFileAlTermine)
         Me.tabGen.Location = New System.Drawing.Point(4, 26)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(744, 0)
+        Me.tabGen.Size = New System.Drawing.Size(744, 288)
         Me.tabGen.TabIndex = 1
         Me.tabGen.Text = "Opzioni generazione"
         Me.tabGen.UseVisualStyleBackColor = True
+        '
+        'btnApriXls
+        '
+        Me.btnApriXls.Location = New System.Drawing.Point(695, 204)
+        Me.btnApriXls.Name = "btnApriXls"
+        Me.btnApriXls.Size = New System.Drawing.Size(30, 23)
+        Me.btnApriXls.TabIndex = 24
+        Me.btnApriXls.Text = "..."
+        Me.btnApriXls.UseVisualStyleBackColor = True
+        '
+        'lblFileXlsx
+        '
+        Me.lblFileXlsx.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.lblFileXlsx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblFileXlsx.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.lblFileXlsx.ForeColor = System.Drawing.SystemColors.HotTrack
+        Me.lblFileXlsx.Location = New System.Drawing.Point(438, 205)
+        Me.lblFileXlsx.Name = "lblFileXlsx"
+        Me.lblFileXlsx.Size = New System.Drawing.Size(250, 20)
+        Me.lblFileXlsx.TabIndex = 23
+        Me.lblFileXlsx.Text = "Label12"
+        '
+        'chkFileXls
+        '
+        Me.chkFileXls.AutoSize = True
+        Me.chkFileXls.Location = New System.Drawing.Point(188, 204)
+        Me.chkFileXls.Name = "chkFileXls"
+        Me.chkFileXls.Size = New System.Drawing.Size(248, 21)
+        Me.chkFileXls.TabIndex = 22
+        Me.chkFileXls.Text = "elimina corrispondenze da file xlsx:"
+        Me.chkFileXls.UseVisualStyleBackColor = True
         '
         'lnkToggleSettings
         '
@@ -570,6 +608,11 @@ Partial Class FileTxt
         Me.lnkToggleSettings.TabStop = True
         Me.lnkToggleSettings.Text = "mostra opzioni"
         Me.lnkToggleSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'openFile
+        '
+        Me.openFile.FileName = "*.xlsx"
+        Me.openFile.Filter = "*.xlsx|file (*.xlsx)"
         '
         'FileTxt
         '
@@ -587,7 +630,7 @@ Partial Class FileTxt
         Me.MinimumSize = New System.Drawing.Size(1100, 600)
         Me.Name = "FileTxt"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "File txt"
+        Me.Text = "Fase 1"
         CType(Me.grdFiles, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpOrario.ResumeLayout(False)
         Me.grpOrario.PerformLayout()
@@ -651,4 +694,8 @@ Partial Class FileTxt
     Friend WithEvents tabSel As TabPage
     Friend WithEvents tabGen As TabPage
     Friend WithEvents lnkToggleSettings As LinkLabel
+    Friend WithEvents chkFileXls As CheckBox
+    Friend WithEvents openFile As OpenFileDialog
+    Friend WithEvents lblFileXlsx As Label
+    Friend WithEvents btnApriXls As Button
 End Class

@@ -44,5 +44,14 @@
     <Setting Name="LunghezzaDxTipoAccorpa" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">6</Value>
     </Setting>
+    <Setting Name="Colonne" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="HyperLink" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\{1}_{2}.jpg</Value>
+    </Setting>
+    <Setting Name="FileXls" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -221,6 +221,42 @@ Namespace My
                 Me("LunghezzaDxTipoAccorpa") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Colonne() As String
+            Get
+                Return CType(Me("Colonne"),String)
+            End Get
+            Set
+                Me("Colonne") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("c:\{1}_{2}.jpg")>  _
+        Public Property HyperLink() As String
+            Get
+                Return CType(Me("HyperLink"),String)
+            End Get
+            Set
+                Me("HyperLink") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property FileXls() As String
+            Get
+                Return CType(Me("FileXls"),String)
+            End Get
+            Set
+                Me("FileXls") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

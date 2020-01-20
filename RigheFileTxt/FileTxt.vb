@@ -1,7 +1,8 @@
 ﻿Imports System.ComponentModel
-Imports Microsoft.Office.Interop
+Imports System.IO
 Imports Microsoft.Win32
 Imports OfficeOpenXml
+Imports OfficeOpenXml.Table
 
 Public Class FileTxt
 
@@ -25,7 +26,11 @@ Public Class FileTxt
     Private cartellaParziali As String = "Parziali"
     Private sepNumRighe As Char = "@"c
 
+    Private elencoCodiciDaEliminare As List(Of Integer)
+
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
+
+        If OpzioniIsOpen() Then ToggleOpzioni()
 
         pattern = txtFiltro.Text
 
@@ -147,7 +152,6 @@ Public Class FileTxt
 
             My.Settings.Save()
 
-
             ' ... nome file temporaneo export
             Dim csv As String = IO.Path.Combine(currentFolder, destFolderName) + ".csv"
             Dim xls As String = IO.Path.Combine(currentFolder, destFolderName) + ".xlsx"
@@ -177,7 +181,7 @@ Public Class FileTxt
             IO.File.WriteAllLines(csv, result.ToArray)
 
             ' ... crea file di excel
-            CreaXls(csv, xls)
+            Excel.CreaXls(csv, xls, Chr(9))
 
             ' ... elimina file csv
             IO.File.Delete(csv)
@@ -210,6 +214,8 @@ Public Class FileTxt
         Me.txtPrefisso.Text = My.Settings.Prefisso
         Me.rbCreati.Checked = My.Settings.Creati = "C"
         Me.chkRinomina.Checked = My.Settings.RinominaConNumeroRighe
+        Me.lblFileXlsx.Text = IO.Path.GetFileName(My.Settings.FileXls)
+        Me.chkFileXls.Checked = Not String.IsNullOrEmpty(My.Settings.FileXls)
 
         Me.chkAccorpaFile.Checked = My.Settings.AccorpaFile
         Me.txtPatternAccorpamento.Text = My.Settings.LunghezzaDxTipoAccorpa.ToString
@@ -232,6 +238,11 @@ Public Class FileTxt
             chkAlle.Checked = True
             txtAlle.Value = CDate(String.Format("{0:dd/MM/yyyy} {1} ", Today, My.Settings.Alle))
         End If
+
+        AddHandler chkFileXls.CheckedChanged, AddressOf chkFileXls_CheckedChanged
+
+        elencoCodiciDaEliminare = Excel.LeggiFileXls(My.Settings.FileXls, True).Select(Function(x) x).ToList
+
     End Sub
 
     Private Sub chkGroup_CheckedChanged(sender As Object, e As EventArgs)
@@ -350,6 +361,8 @@ Public Class FileTxt
                     ' ... crea nuovo file con contenuto unito
                     Dim newFile As String = NomeFileAccorpato(source, t)
                     IO.File.WriteAllText(newFile, content)
+                    ' ... elimina righe corrispondenti al file xls
+                    If Me.chkFileXls.Checked Then CSVgest.EliminaRighe(newFile, elencoCodiciDaEliminare, My.Settings.ColServpsDa - 1, My.Settings.ColServpsA - My.Settings.ColServpsDa + 1)
                 End If
             Next
 
@@ -415,7 +428,7 @@ Public Class FileTxt
                 End If
             Next
             IO.File.WriteAllLines(fCodCiclo + ".csv", ret)
-            CreaXls(fCodCiclo + ".csv", fCodCiclo + ".xlsx")
+            Excel.CreaXls(fCodCiclo + ".csv", fCodCiclo + ".xlsx", Chr(9))
             IO.File.Delete(fCodCiclo + ".csv")
         Next
 
@@ -428,25 +441,6 @@ Public Class FileTxt
 
     Private Sub grdFiles_MouseClick(sender As Object, e As MouseEventArgs) Handles grdFiles.MouseClick
         ToggleOpzioni()
-    End Sub
-
-    Private Sub CreaXls(sourceCsvPath As String, destXlsPath As String)
-
-        ' ... crea file di excel
-        Using ex As New OfficeOpenXml.ExcelPackage(New IO.FileInfo(destXlsPath))
-
-            Dim ExcelTextFormat As New ExcelTextFormat()
-            ExcelTextFormat.Delimiter = Chr(9)
-
-            Dim worksheet As ExcelWorksheet = ex.Workbook.Worksheets.Add("Foglio 1")
-
-            worksheet.Cells("A1").LoadFromText(New IO.FileInfo(sourceCsvPath), ExcelTextFormat, OfficeOpenXml.Table.TableStyles.Light9, True)
-
-            worksheet.Cells(worksheet.Dimension.Address).AutoFitColumns()
-
-            ex.Save()
-
-        End Using
     End Sub
 
     Private Sub lnkToggleSettings_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkToggleSettings.LinkClicked
@@ -467,5 +461,35 @@ Public Class FileTxt
         Return tabSettings.Height > 28
     End Function
 
+    Private Sub chkFileXls_CheckedChanged(sender As Object, e As EventArgs)
+        If Not chkFileXls.Checked Then
+            Me.lblFileXlsx.Text = String.Empty
+            My.Settings.FileXls = Nothing
+            My.Settings.Save()
+        Else
+            If Me.openFile.ShowDialog = DialogResult.OK Then
+                My.Settings.FileXls = Me.openFile.FileName
+                My.Settings.Save()
+                Me.lblFileXlsx.Text = IO.Path.GetFileName(Me.openFile.FileName)
+                Me.chkFileXls.Checked = True
+            Else
+                chkFileXls.Checked = False
+            End If
+        End If
+    End Sub
+
+    Private Sub btnApriXls_Click(sender As Object, e As EventArgs) Handles btnApriXls.Click
+        If String.IsNullOrEmpty(My.Settings.FileXls) Then Return
+        If IO.File.Exists(My.Settings.FileXls) Then
+            System.Diagnostics.Process.Start(My.Settings.FileXls)
+        Else
+            MsgBox(String.Format("Il file {0} non esiste!", My.Settings.FileXls))
+        End If
+    End Sub
+
+End Class
+
+Public Class CodiceXls
+    Public Property Codice As Integer
 End Class
 
