@@ -27,6 +27,7 @@ Public Class FileTxt
     Private sepNumRighe As Char = "@"c
 
     Private elencoCodiciDaEliminare As List(Of Integer)
+    Private modicaRighe As List(Of Info)
 
     Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
 
@@ -195,6 +196,12 @@ Public Class FileTxt
             ' ... codice/ciclo
             If chkCreaCodiceCiclo.Checked Then CollegaFileRecursione(destFolder)
 
+            ' ... ricalcola totali
+            If chkFileXls.Checked Then RiCalcolaTotaleCelleNumeroRighe()
+
+            ' ... rinomina file e cartelle
+            If chkFileXls.Checked Then RinominaFileCartelle()
+
             ToggleOpzioni()
 
             MsgBox("Esportazione terminata!")
@@ -242,6 +249,8 @@ Public Class FileTxt
         AddHandler chkFileXls.CheckedChanged, AddressOf chkFileXls_CheckedChanged
 
         elencoCodiciDaEliminare = Excel.LeggiFileXls(My.Settings.FileXls, True).Select(Function(x) x).ToList
+
+        modicaRighe = New List(Of Info)
 
     End Sub
 
@@ -362,7 +371,17 @@ Public Class FileTxt
                     Dim newFile As String = NomeFileAccorpato(source, t)
                     IO.File.WriteAllText(newFile, content)
                     ' ... elimina righe corrispondenti al file xls
-                    If Me.chkFileXls.Checked Then CSVgest.EliminaRighe(newFile, elencoCodiciDaEliminare, My.Settings.ColServpsDa - 1, My.Settings.ColServpsA - My.Settings.ColServpsDa + 1)
+                    If Me.chkFileXls.Checked Then
+                        Dim infoRighe As Info = CSVgest.EliminaRighe(newFile, elencoCodiciDaEliminare, My.Settings.ColServpsDa - 1, My.Settings.ColServpsA - My.Settings.ColServpsDa + 1)
+                        ' .. rinomina il file
+                        CambiaValoreCellaNumeroRighe(source, infoRighe.NumeroRigheNew)
+                        ' ..
+                        infoRighe.Cartella = source
+                        ' ..
+                        If modicaRighe.FirstOrDefault(Function(x) x.Cartella = source) Is Nothing Then
+                            modicaRighe.Add(infoRighe)
+                        End If
+                    End If
                 End If
             Next
 
@@ -488,9 +507,44 @@ Public Class FileTxt
         End If
     End Sub
 
+    Private Sub CambiaValoreCellaNumeroRighe(nomeFile As String, valore As Integer)
+        Dim pFolder As String = IO.Path.GetFileName(nomeFile).Split(sepNumRighe)(0)
+        For Each d As DataGridViewRow In grdFiles.Rows
+            If d.Cells(1).Value.ToString = pFolder Then
+                d.Cells(3).Value = valore
+                Exit For
+            End If
+        Next
+    End Sub
+
+    Private Sub RiCalcolaTotaleCelleNumeroRighe()
+        Dim tot As Integer = 0
+        For Each d As DataGridViewRow In grdFiles.Rows
+            If d.Cells(2).Value.ToString.StartsWith("Totale") Then
+                d.Cells(3).Value = tot
+            Else
+                tot += CInt(d.Cells(3).Value)
+            End If
+        Next
+    End Sub
+
+    Private Sub RinominaFileCartelle()
+        For Each i As Info In modicaRighe
+            Dim sOld As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheOld)
+            Dim sNew As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheNew)
+            For Each f As String In IO.Directory.GetFiles(i.Cartella)
+                Dim fNew As String = IO.Path.Combine(IO.Path.GetDirectoryName(f), IO.Path.GetFileName(f).Replace(sOld, sNew))
+                IO.File.Move(f, fNew)
+            Next
+            IO.Directory.Move(i.Cartella, i.Cartella.Replace(sOld, sNew))
+        Next
+    End Sub
+
 End Class
 
-Public Class CodiceXls
-    Public Property Codice As Integer
+Public Class Info
+    Public Property Cartella As String
+    Public Property NumeroRigheOld As Integer
+    Public Property NumeroRigheNew As Integer
 End Class
 

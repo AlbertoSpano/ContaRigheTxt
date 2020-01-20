@@ -101,7 +101,7 @@ Public Class CSVgest
 
     End Function
 
-    Public Shared Sub EliminaRighe(newFile As String, elencoRigheDaEliminare As List(Of Integer), startCod As Integer, lungCod As Integer)
+    Public Shared Function EliminaRighe(newFile As String, elencoRigheDaEliminare As List(Of Integer), startCod As Integer, lungCod As Integer) As Info
 
         Dim r As New List(Of String)
 
@@ -111,9 +111,13 @@ Public Class CSVgest
             End While
         End Using
 
-        IO.File.WriteAllLines(newFile, r.Where(Function(x) Not elencoRigheDaEliminare.Contains(CInt(x.Substring(startCod, lungCod)))))
+        Dim righeRimaste As IEnumerable(Of String) = r.Where(Function(x) Not elencoRigheDaEliminare.Contains(CInt(x.Substring(startCod, lungCod))))
 
-    End Sub
+        IO.File.WriteAllLines(newFile, righeRimaste)
+
+        Return New Info With {.NumeroRigheOld = r.Count, .NumeroRigheNew = righeRimaste.Count}
+
+    End Function
 
 End Class
 
