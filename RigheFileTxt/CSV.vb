@@ -43,20 +43,61 @@ Public Class CSVgest
 
     End Sub
 
-    Public Function EstraiColonne(cols As List(Of Integer)) As String
+    Public Function CreaHyperlink(pattern As String, index As Integer, c As List(Of Colonna)) As List(Of String)
 
-        Dim s As New StringBuilder
+        Dim s As New List(Of String)
+        Dim ch As List(Of Colonna)
+        ch = c.Where(Function(x) x.hyperLink IsNot Nothing).OrderBy(Function(x) x.hyperLink).ToList
 
         For i As Integer = startRow To righe.Count - 1
             Dim riga As String() = righe(i).Split(separatore)
-            Dim sRiga As String = String.Empty
-            For j As Integer = 0 To cols.Count - 1
-                sRiga += If(sRiga.Length = 0, "", separatore) + riga(cols(j))
+            Dim sRiga As String = pattern
+            For j As Integer = 0 To ch.Count - 1
+                sRiga = sRiga.Replace("{" + ch(j).hyperLink.ToString + "}", riga(ch(j).colFile1 - 1))
             Next
-            s.AppendLine(sRiga)
+            s.Add(sRiga)
         Next
 
-        Return s.ToString
+        Return s
+
+    End Function
+
+    Public Function EstraiColonne(cols As List(Of Integer)) As List(Of String)
+
+        Dim s As New List(Of String)
+
+        For i As Integer = 0 To righe.Count - 1
+            Dim riga As String() = righe(i).Split(separatore)
+            Dim sRiga As String = String.Empty
+            For j As Integer = 0 To cols.Count - 1
+                sRiga += If(sRiga.Length = 0, "", separatore) + riga(cols(j) - 1)
+            Next
+            s.Add(sRiga)
+        Next
+
+        Return s
+
+    End Function
+
+    Public Function AggiungiColonna(righe As List(Of String), intestazione As String, valore As String) As List(Of String)
+
+        righe(0) = righe(0) + separatore + intestazione
+        For i As Integer = 1 To righe.Count - 1
+            righe(i) = righe(i) + separatore + valore
+        Next
+
+        Return righe
+
+    End Function
+
+    Public Function AggiungiColonna(righe As List(Of String), intestazione As String, valori As List(Of String)) As List(Of String)
+
+        righe(0) = righe(0) + separatore + intestazione
+        For i As Integer = 1 To righe.Count - 1
+            righe(i) = righe(i) + separatore + valori(i - 1)
+        Next
+
+        Return righe
 
     End Function
 
@@ -74,4 +115,9 @@ Public Class CSVgest
 
     End Sub
 
+End Class
+
+Public Class Separatore
+    Public Property Carattere As Char
+    Public Property Descrizione As String
 End Class

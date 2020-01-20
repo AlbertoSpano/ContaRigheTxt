@@ -257,6 +257,30 @@ Namespace My
                 Me("FileXls") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RootFolderFase2() As String
+            Get
+                Return CType(Me("RootFolderFase2"),String)
+            End Get
+            Set
+                Me("RootFolderFase2") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute(";")>  _
+        Public Property SeparatoreCsv() As Char
+            Get
+                Return CType(Me("SeparatoreCsv"),Char)
+            End Get
+            Set
+                Me("SeparatoreCsv") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

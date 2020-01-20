@@ -3,8 +3,24 @@
 Public Class Fase_2
 
     Private Sub Fase_2_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        Dim bs As New BindingList(Of Separatore)
+        bs.Add(New Separatore With {.Carattere = Chr(9), .Descrizione = "Tabulazione"})
+        bs.Add(New Separatore With {.Carattere = ";"c, .Descrizione = "Punto e virgola"})
+        bs.Add(New Separatore With {.Carattere = ","c, .Descrizione = "Virgola"})
+
+
+        cboSeparatore.DataSource = bs
+        cboSeparatore.ValueMember = "Carattere"
+        cboSeparatore.DisplayMember = "Descrizione"
+        cboSeparatore.Refresh()
+        cboSeparatore.SelectedItem = bs.FirstOrDefault(Function(x) x.Carattere = My.Settings.SeparatoreCsv)
+
+        AddHandler cboSeparatore.SelectedIndexChanged, AddressOf cboSeparatore_SelectedIndexChanged
+
         caricaColonne()
         txtHyperlink.Text = My.Settings.HyperLink
+
     End Sub
 
     Private Sub Fase_2_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
@@ -27,11 +43,9 @@ Public Class Fase_2
             End If
         Next
 
-        If Not Valida(source, txtHyperlink.Text) Then Return
+        Valida(source, txtHyperlink.Text)
 
         Colonne.Set(source)
-
-        My.Settings.HyperLink = txtHyperlink.Text
 
     End Sub
 
@@ -83,6 +97,65 @@ Public Class Fase_2
 
     Private Sub btnEsegui_Click(sender As Object, e As EventArgs) Handles btnEsegui.Click
 
+        Dim c As List(Of Colonna) = Colonne.Get
+        Dim c1 As List(Of Integer) = c.Select(Function(x) x.colFile1).ToList
+        Dim c2 As List(Of Integer) = c.Select(Function(x) x.colFile2).ToList
+        Dim content As List(Of String)
+
+        ' ... itera tra le sottocartelle
+        For Each d As String In IO.Directory.GetDirectories(My.Settings.RootFolderFase2)
+            ' ...
+            Dim i As Integer = 1
+            ' ... itera tra i file csv
+            For Each f As String In IO.Directory.GetFiles(d, "*.csv")
+                ' ... gestione file csv
+                Dim cv As New CSVgest(f, True, My.Settings.SeparatoreCsv)
+                ' ... estrae le colonne
+                content = New List(Of String)
+                Select Case i
+                    Case 1
+                        content = cv.EstraiColonne(c1)
+                    Case 2
+                        content = cv.EstraiColonne(c2)
+                    Case Else
+                        Continue For
+                End Select
+                ' ... aggiunge colonne
+                If content.Count > 0 Then
+                    ' ... aggiunge la colonna con il nome del file
+                    content = cv.AggiungiColonna(content, "File", IO.Path.GetFileName(f))
+                    ' ... aggiunge colonna iperlink
+                    content = cv.AggiungiColonna(content, "Hyperlink", cv.CreaHyperlink(My.Settings.HyperLink, i, c))
+                    ' ... nome file xls
+                    Dim nomeFileXls As String = IO.Path.Combine(IO.Path.GetDirectoryName(f), IO.Path.GetFileNameWithoutExtension(f) + ".xlsx")
+                    ' ... crea file xls
+                    Excel.CreaXls(content, nomeFileXls, My.Settings.SeparatoreCsv)
+                End If
+            Next
+        Next
+
+    End Sub
+
+    Private Sub btnScegli_Click(sender As Object, e As EventArgs) Handles btnScegli.Click
+
+        If fbd.ShowDialog = DialogResult.OK Then
+
+            My.Settings.RootFolderFase2 = fbd.SelectedPath
+            My.Settings.Save()
+            Me.txtFolderFase2.Text = fbd.SelectedPath
+
+        End If
+
+    End Sub
+
+    Private Sub cboSeparatore_SelectedIndexChanged(sender As Object, e As EventArgs)
+        My.Settings.SeparatoreCsv = CChar(cboSeparatore.SelectedValue)
+        My.Settings.Save()
+    End Sub
+
+    Private Sub txtHyperlink_LostFocus(sender As Object, e As EventArgs) Handles txtHyperlink.LostFocus
+        My.Settings.HyperLink = txtHyperlink.Text
+        My.Settings.Save()
     End Sub
 
 End Class

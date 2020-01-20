@@ -23,7 +23,7 @@ Partial Class Fase_2
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.btnScegli = New System.Windows.Forms.Button()
-        Me.txtFolder = New System.Windows.Forms.TextBox()
+        Me.txtFolderFase2 = New System.Windows.Forms.TextBox()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
         Me.grdColonne = New System.Windows.Forms.DataGridView()
         Me.File1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -33,6 +33,8 @@ Partial Class Fase_2
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnEsegui = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cboSeparatore = New System.Windows.Forms.ComboBox()
         CType(Me.grdColonne, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -48,23 +50,23 @@ Partial Class Fase_2
         Me.btnScegli.Text = "Scegli cartella ..."
         Me.btnScegli.UseVisualStyleBackColor = True
         '
-        'txtFolder
+        'txtFolderFase2
         '
-        Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.txtFolderFase2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(15, 55)
-        Me.txtFolder.MaxLength = 12
-        Me.txtFolder.Name = "txtFolder"
-        Me.txtFolder.ReadOnly = True
-        Me.txtFolder.Size = New System.Drawing.Size(752, 22)
-        Me.txtFolder.TabIndex = 14
-        Me.txtFolder.TabStop = False
+        Me.txtFolderFase2.Location = New System.Drawing.Point(15, 55)
+        Me.txtFolderFase2.MaxLength = 12
+        Me.txtFolderFase2.Name = "txtFolderFase2"
+        Me.txtFolderFase2.ReadOnly = True
+        Me.txtFolderFase2.Size = New System.Drawing.Size(752, 22)
+        Me.txtFolderFase2.TabIndex = 14
+        Me.txtFolderFase2.TabStop = False
         '
         'grdColonne
         '
         Me.grdColonne.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.grdColonne.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.File1, Me.File2, Me.Hyperlink})
-        Me.grdColonne.Location = New System.Drawing.Point(12, 85)
+        Me.grdColonne.Location = New System.Drawing.Point(15, 147)
         Me.grdColonne.Name = "grdColonne"
         Me.grdColonne.Size = New System.Drawing.Size(409, 209)
         Me.grdColonne.TabIndex = 16
@@ -92,7 +94,7 @@ Partial Class Fase_2
         '
         'txtHyperlink
         '
-        Me.txtHyperlink.Location = New System.Drawing.Point(12, 335)
+        Me.txtHyperlink.Location = New System.Drawing.Point(15, 397)
         Me.txtHyperlink.Name = "txtHyperlink"
         Me.txtHyperlink.Size = New System.Drawing.Size(531, 22)
         Me.txtHyperlink.TabIndex = 17
@@ -100,7 +102,7 @@ Partial Class Fase_2
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 315)
+        Me.Label1.Location = New System.Drawing.Point(12, 377)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(224, 17)
         Me.Label1.TabIndex = 18
@@ -128,18 +130,38 @@ Partial Class Fase_2
         Me.Label2.TabIndex = 21
         Me.Label2.Text = "Genera file xls da file csv con inserimento collegamento ipertestuale"
         '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(13, 96)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(155, 17)
+        Me.Label3.TabIndex = 22
+        Me.Label3.Text = "Separatore colonne csv:"
+        '
+        'cboSeparatore
+        '
+        Me.cboSeparatore.FormattingEnabled = True
+        Me.cboSeparatore.Items.AddRange(New Object() {"Virgola", "Punto e virgola", "Tabulazione"})
+        Me.cboSeparatore.Location = New System.Drawing.Point(174, 93)
+        Me.cboSeparatore.Name = "cboSeparatore"
+        Me.cboSeparatore.Size = New System.Drawing.Size(146, 25)
+        Me.cboSeparatore.TabIndex = 23
+        '
         'Fase_2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(913, 444)
+        Me.Controls.Add(Me.cboSeparatore)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.btnEsegui)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtHyperlink)
         Me.Controls.Add(Me.grdColonne)
         Me.Controls.Add(Me.btnScegli)
-        Me.Controls.Add(Me.txtFolder)
+        Me.Controls.Add(Me.txtFolderFase2)
         Me.Font = New System.Drawing.Font("Century Gothic", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -153,7 +175,7 @@ Partial Class Fase_2
     End Sub
 
     Friend WithEvents btnScegli As Button
-    Friend WithEvents txtFolder As TextBox
+    Friend WithEvents txtFolderFase2 As TextBox
     Friend WithEvents fbd As FolderBrowserDialog
     Friend WithEvents grdColonne As DataGridView
     Friend WithEvents txtHyperlink As TextBox
@@ -163,4 +185,6 @@ Partial Class Fase_2
     Friend WithEvents Hyperlink As DataGridViewTextBoxColumn
     Friend WithEvents btnEsegui As Button
     Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents cboSeparatore As ComboBox
 End Class

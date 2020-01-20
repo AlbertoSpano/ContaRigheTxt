@@ -43,10 +43,10 @@ Partial Class Main
         Me.lnkFase1.Font = New System.Drawing.Font("Century Gothic", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lnkFase1.Location = New System.Drawing.Point(219, 117)
         Me.lnkFase1.Name = "lnkFase1"
-        Me.lnkFase1.Size = New System.Drawing.Size(93, 24)
+        Me.lnkFase1.Size = New System.Drawing.Size(110, 24)
         Me.lnkFase1.TabIndex = 1
         Me.lnkFase1.TabStop = True
-        Me.lnkFase1.Text = " - Fase 1"
+        Me.lnkFase1.Text = "F a s e    1"
         '
         'lnkFase2
         '
@@ -54,10 +54,10 @@ Partial Class Main
         Me.lnkFase2.Font = New System.Drawing.Font("Century Gothic", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lnkFase2.Location = New System.Drawing.Point(219, 171)
         Me.lnkFase2.Name = "lnkFase2"
-        Me.lnkFase2.Size = New System.Drawing.Size(93, 24)
+        Me.lnkFase2.Size = New System.Drawing.Size(110, 24)
         Me.lnkFase2.TabIndex = 2
         Me.lnkFase2.TabStop = True
-        Me.lnkFase2.Text = " - Fase 2"
+        Me.lnkFase2.Text = "F a s e    2"
         '
         'Main
         '
