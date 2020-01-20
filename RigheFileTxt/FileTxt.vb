@@ -470,6 +470,7 @@ Public Class FileTxt
             If Me.openFile.ShowDialog = DialogResult.OK Then
                 My.Settings.FileXls = Me.openFile.FileName
                 My.Settings.Save()
+                elencoCodiciDaEliminare = Excel.LeggiFileXls(My.Settings.FileXls, True).Select(Function(x) x).ToList
                 Me.lblFileXlsx.Text = IO.Path.GetFileName(Me.openFile.FileName)
                 Me.chkFileXls.Checked = True
             Else
