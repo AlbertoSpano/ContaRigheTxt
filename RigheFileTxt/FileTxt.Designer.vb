@@ -69,7 +69,7 @@ Partial Class FileTxt
         Me.tabSettings = New System.Windows.Forms.TabControl()
         Me.tabSel = New System.Windows.Forms.TabPage()
         Me.tabGen = New System.Windows.Forms.TabPage()
-        Me.btnApriXls = New System.Windows.Forms.Button()
+        Me.btnScegliXls = New System.Windows.Forms.Button()
         Me.lblFileXlsx = New System.Windows.Forms.Label()
         Me.chkFileXls = New System.Windows.Forms.CheckBox()
         Me.lnkToggleSettings = New System.Windows.Forms.LinkLabel()
@@ -546,14 +546,14 @@ Partial Class FileTxt
         Me.tabSel.Location = New System.Drawing.Point(4, 26)
         Me.tabSel.Name = "tabSel"
         Me.tabSel.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabSel.Size = New System.Drawing.Size(744, 0)
+        Me.tabSel.Size = New System.Drawing.Size(744, 281)
         Me.tabSel.TabIndex = 0
         Me.tabSel.Text = "Opzioni selezione"
         Me.tabSel.UseVisualStyleBackColor = True
         '
         'tabGen
         '
-        Me.tabGen.Controls.Add(Me.btnApriXls)
+        Me.tabGen.Controls.Add(Me.btnScegliXls)
         Me.tabGen.Controls.Add(Me.lblFileXlsx)
         Me.tabGen.Controls.Add(Me.chkFileXls)
         Me.tabGen.Controls.Add(Me.GroupBox1)
@@ -562,19 +562,19 @@ Partial Class FileTxt
         Me.tabGen.Location = New System.Drawing.Point(4, 26)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(744, 288)
+        Me.tabGen.Size = New System.Drawing.Size(744, 0)
         Me.tabGen.TabIndex = 1
         Me.tabGen.Text = "Opzioni generazione"
         Me.tabGen.UseVisualStyleBackColor = True
         '
-        'btnApriXls
+        'btnScegliXls
         '
-        Me.btnApriXls.Location = New System.Drawing.Point(695, 204)
-        Me.btnApriXls.Name = "btnApriXls"
-        Me.btnApriXls.Size = New System.Drawing.Size(30, 23)
-        Me.btnApriXls.TabIndex = 24
-        Me.btnApriXls.Text = "..."
-        Me.btnApriXls.UseVisualStyleBackColor = True
+        Me.btnScegliXls.Location = New System.Drawing.Point(695, 204)
+        Me.btnScegliXls.Name = "btnScegliXls"
+        Me.btnScegliXls.Size = New System.Drawing.Size(30, 23)
+        Me.btnScegliXls.TabIndex = 24
+        Me.btnScegliXls.Text = "..."
+        Me.btnScegliXls.UseVisualStyleBackColor = True
         '
         'lblFileXlsx
         '
@@ -697,5 +697,5 @@ Partial Class FileTxt
     Friend WithEvents chkFileXls As CheckBox
     Friend WithEvents openFile As OpenFileDialog
     Friend WithEvents lblFileXlsx As Label
-    Friend WithEvents btnApriXls As Button
+    Friend WithEvents btnScegliXls As Button
 End Class

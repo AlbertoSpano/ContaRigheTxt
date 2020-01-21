@@ -483,27 +483,38 @@ Public Class FileTxt
     Private Sub chkFileXls_CheckedChanged(sender As Object, e As EventArgs)
         If Not chkFileXls.Checked Then
             Me.lblFileXlsx.Text = String.Empty
+            Me.lblFileXlsx.Cursor = Cursors.Default
             My.Settings.FileXls = Nothing
             My.Settings.Save()
         Else
-            If Me.openFile.ShowDialog = DialogResult.OK Then
-                My.Settings.FileXls = Me.openFile.FileName
-                My.Settings.Save()
-                elencoCodiciDaEliminare = Excel.LeggiFileXls(My.Settings.FileXls, True).Select(Function(x) x).ToList
-                Me.lblFileXlsx.Text = IO.Path.GetFileName(Me.openFile.FileName)
-                Me.chkFileXls.Checked = True
-            Else
-                chkFileXls.Checked = False
-            End If
+            If String.IsNullOrEmpty(My.Settings.FileXls) Then ScegliFileXls()
         End If
     End Sub
 
-    Private Sub btnApriXls_Click(sender As Object, e As EventArgs) Handles btnApriXls.Click
+    Private Sub btnScegliXls_Click(sender As Object, e As EventArgs) Handles btnScegliXls.Click
+        ScegliFileXls()
+    End Sub
+
+    Private Sub lblFileXlsx_Click(sender As Object, e As EventArgs) Handles lblFileXlsx.Click
         If String.IsNullOrEmpty(My.Settings.FileXls) Then Return
         If IO.File.Exists(My.Settings.FileXls) Then
             System.Diagnostics.Process.Start(My.Settings.FileXls)
         Else
             MsgBox(String.Format("Il file {0} non esiste!", My.Settings.FileXls))
+        End If
+    End Sub
+
+    Private Sub ScegliFileXls()
+        Me.openFile.FileName = "*.xlsx;*.xls"
+        If Me.openFile.ShowDialog = DialogResult.OK Then
+            My.Settings.FileXls = Me.openFile.FileName
+            My.Settings.Save()
+            elencoCodiciDaEliminare = Excel.LeggiFileXls(My.Settings.FileXls, True).Select(Function(x) x).ToList
+            Me.lblFileXlsx.Text = IO.Path.GetFileName(Me.openFile.FileName)
+            Me.lblFileXlsx.Cursor = Cursors.Hand
+            Me.chkFileXls.Checked = True
+        Else
+            If String.IsNullOrEmpty(My.Settings.FileXls) Then Me.chkFileXls.Checked = False
         End If
     End Sub
 
@@ -530,13 +541,15 @@ Public Class FileTxt
 
     Private Sub RinominaFileCartelle()
         For Each i As Info In modicaRighe
-            Dim sOld As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheOld)
-            Dim sNew As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheNew)
-            For Each f As String In IO.Directory.GetFiles(i.Cartella)
-                Dim fNew As String = IO.Path.Combine(IO.Path.GetDirectoryName(f), IO.Path.GetFileName(f).Replace(sOld, sNew))
-                IO.File.Move(f, fNew)
-            Next
-            IO.Directory.Move(i.Cartella, i.Cartella.Replace(sOld, sNew))
+            If i.NumeroRigheNew <> i.NumeroRigheOld Then
+                Dim sOld As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheOld)
+                Dim sNew As String = String.Format("{0}{1}", sepNumRighe, i.NumeroRigheNew)
+                For Each f As String In IO.Directory.GetFiles(i.Cartella)
+                    Dim fNew As String = IO.Path.Combine(IO.Path.GetDirectoryName(f), IO.Path.GetFileName(f).Replace(sOld, sNew))
+                    IO.File.Move(f, fNew)
+                Next
+                IO.Directory.Move(i.Cartella, i.Cartella.Replace(sOld, sNew))
+            End If
         Next
     End Sub
 
