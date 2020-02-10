@@ -59,5 +59,11 @@
     <Setting Name="SeparatoreCsv" Type="System.Char" Scope="User">
       <Value Profile="(Default)">;</Value>
     </Setting>
+    <Setting Name="NumFileCsv" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ParolaNomeCsv" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SCARTATE</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

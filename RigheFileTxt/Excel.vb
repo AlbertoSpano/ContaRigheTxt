@@ -60,4 +60,16 @@ Public Module Excel
 
     End Function
 
+    Public Sub AggiungiHyperLink(nomeFile As String, colIndex As Integer)
+
+        Using ex As New OfficeOpenXml.ExcelPackage(New IO.FileInfo(nomeFile))
+            Dim w As ExcelWorksheet = ex.Workbook.Worksheets(1)
+            w.Column(colIndex).Hidden = True
+            For rowINdex As Integer = 2 To w.Dimension.End.Row
+                w.Cells(rowINdex, colIndex + 1).FormulaR1C1 = String.Format("=HYPERLINK(RC[-1],""Link"")")
+            Next
+            ex.Save()
+        End Using
+    End Sub
+
 End Module

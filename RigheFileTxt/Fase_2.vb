@@ -1,4 +1,6 @@
 ﻿Imports System.ComponentModel
+Imports System.IO
+Imports System.Reflection
 
 Public Class Fase_2
 
@@ -20,6 +22,8 @@ Public Class Fase_2
 
         caricaColonne()
         txtHyperlink.Text = My.Settings.HyperLink
+        numFile.Value = My.Settings.NumFileCsv
+        txtParolaCSV.Text = My.Settings.ParolaNomeCsv
 
     End Sub
 
@@ -31,6 +35,7 @@ Public Class Fase_2
         Dim bl As New BindingList(Of Colonna)(Colonne.Get)
         Dim bs As New BindingSource(bl, Nothing)
         grdColonne.DataSource = bs
+
     End Sub
 
     Private Sub Salva()
@@ -97,42 +102,68 @@ Public Class Fase_2
 
     Private Sub btnEsegui_Click(sender As Object, e As EventArgs) Handles btnEsegui.Click
 
+        My.Settings.NumFileCsv = CInt(numFile.Value)
+        My.Settings.ParolaNomeCsv = txtParolaCSV.Text
+
+        My.Settings.Save()
+
         Dim c As List(Of Colonna) = Colonne.Get
         Dim c1 As List(Of Integer) = c.Select(Function(x) x.colFile1).ToList
         Dim c2 As List(Of Integer) = c.Select(Function(x) x.colFile2).ToList
         Dim content As List(Of String)
+        Dim totalContent As List(Of String)
+        Dim i As Integer = 1
+
+        Cursor = Cursors.WaitCursor
 
         ' ... itera tra le sottocartelle
         For Each d As String In IO.Directory.GetDirectories(My.Settings.RootFolderFase2)
             ' ...
-            Dim i As Integer = 1
+            totalContent = New List(Of String)
             ' ... itera tra i file csv
             For Each f As String In IO.Directory.GetFiles(d, "*.csv")
                 ' ... gestione file csv
                 Dim cv As New CSVgest(f, True, My.Settings.SeparatoreCsv)
                 ' ... estrae le colonne
                 content = New List(Of String)
+                ' ... numero file
+                If IO.Path.GetFileName(f).Contains(My.Settings.ParolaNomeCsv) Then
+                    i = My.Settings.NumFileCsv
+                Else
+                    i = If(My.Settings.NumFileCsv = 1, 2, 1)
+                End If
+                ' ... estrae i dati
                 Select Case i
                     Case 1
-                        content = cv.EstraiColonne(c1)
+                        content = cv.EstraiColonne(c1, totalContent.Count > 0)
                     Case 2
-                        content = cv.EstraiColonne(c2)
+                        content = cv.EstraiColonne(c2, totalContent.Count > 0)
                     Case Else
                         Continue For
                 End Select
                 ' ... aggiunge colonne
                 If content.Count > 0 Then
                     ' ... aggiunge la colonna con il nome del file
-                    content = cv.AggiungiColonna(content, "File", IO.Path.GetFileName(f))
+                    content = cv.AggiungiColonna(content, IO.Path.GetFileName(f), If(totalContent.Count = 0, "File", Nothing))
                     ' ... aggiunge colonna iperlink
-                    content = cv.AggiungiColonna(content, "Hyperlink", cv.CreaHyperlink(My.Settings.HyperLink, i, c))
-                    ' ... nome file xls
-                    Dim nomeFileXls As String = IO.Path.Combine(IO.Path.GetDirectoryName(f), IO.Path.GetFileNameWithoutExtension(f) + ".xlsx")
-                    ' ... crea file xls
-                    Excel.CreaXls(content, nomeFileXls, My.Settings.SeparatoreCsv)
+                    content = cv.AggiungiColonna(content, cv.CreaHyperlink(My.Settings.HyperLink, i, c), If(totalContent.Count = 0, "Hyperlink", Nothing))
+                    ' ... unisce righe
+                    totalContent.AddRange(content)
                 End If
             Next
+            If totalContent.Count > 0 Then
+                ' ... nome file xls
+                Dim nomeFileXls As String = IO.Path.Combine(d, IO.Path.GetFileName(d) + ".xlsx")
+                ' ...
+                IO.File.Delete(nomeFileXls)
+                ' ... crea file xls
+                Excel.CreaXls(totalContent, nomeFileXls, My.Settings.SeparatoreCsv)
+                ' ... hyperlink
+                Excel.AggiungiHyperLink(nomeFileXls, totalContent(0).Count(Function(x) x = ";") + 1)
+            End If
         Next
+
+        Cursor = Cursors.Default
 
     End Sub
 
@@ -156,6 +187,28 @@ Public Class Fase_2
     Private Sub txtHyperlink_LostFocus(sender As Object, e As EventArgs) Handles txtHyperlink.LostFocus
         My.Settings.HyperLink = txtHyperlink.Text
         My.Settings.Save()
+    End Sub
+
+    Private Sub lnkEsempio_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnkEsempio.LinkClicked
+        Dim asm As Assembly = Assembly.GetExecutingAssembly()
+        Dim file As String = String.Format("{0}.esempio_fase_2.xlsx", asm.GetName().Name)
+        Dim fileStream As Stream = asm.GetManifestResourceStream(file)
+        Dim fileOutput As String = IO.Path.Combine(IO.Path.GetTempPath, IO.Path.GetTempFileName) + ".xlsx"
+        SaveStreamToFile(fileOutput, fileStream)
+        System.Diagnostics.Process.Start(fileOutput)
+    End Sub
+    Private Sub SaveStreamToFile(ByVal fileFullPath As String, ByVal stream As Stream)
+        If stream.Length = 0 Then Return
+
+        Using fileStream As FileStream = System.IO.File.Create(fileFullPath, CInt(stream.Length))
+            Dim bytesInStream As Byte() = New Byte(CInt(stream.Length - 1)) {}
+            stream.Read(bytesInStream, 0, CInt(bytesInStream.Length))
+            fileStream.Write(bytesInStream, 0, bytesInStream.Length)
+        End Using
+    End Sub
+
+    Private Sub numFile_ValueChanged(sender As Object, e As EventArgs) Handles numFile.ValueChanged
+        lblCsvParola.Text = String.Format("Parola distintiva file {0}:", numFile.Value)
     End Sub
 
 End Class

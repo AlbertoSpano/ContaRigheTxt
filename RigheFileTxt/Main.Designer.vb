@@ -67,9 +67,7 @@ Partial Class Main
         Me.Controls.Add(Me.lnkFase2)
         Me.Controls.Add(Me.lnkFase1)
         Me.Controls.Add(Me.Label1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Main"

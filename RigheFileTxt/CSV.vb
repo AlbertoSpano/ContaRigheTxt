@@ -62,15 +62,16 @@ Public Class CSVgest
 
     End Function
 
-    Public Function EstraiColonne(cols As List(Of Integer)) As List(Of String)
+    Public Function EstraiColonne(cols As List(Of Integer), escludiPrimaRiga As Boolean) As List(Of String)
 
         Dim s As New List(Of String)
 
-        For i As Integer = 0 To righe.Count - 1
+        For i As Integer = If(escludiPrimaRiga, 1, 0) To righe.Count - 1
             Dim riga As String() = righe(i).Split(separatore)
             Dim sRiga As String = String.Empty
             For j As Integer = 0 To cols.Count - 1
-                sRiga += If(sRiga.Length = 0, "", separatore) + riga(cols(j) - 1)
+                Dim r As String = If(cols(j) = 0, String.Empty, riga(cols(j) - 1))
+                sRiga += If(sRiga.Length = 0, "", separatore) + r
             Next
             s.Add(sRiga)
         Next
@@ -79,10 +80,15 @@ Public Class CSVgest
 
     End Function
 
-    Public Function AggiungiColonna(righe As List(Of String), intestazione As String, valore As String) As List(Of String)
+    Public Function AggiungiColonna(righe As List(Of String), valore As String, Optional intestazione As String = Nothing) As List(Of String)
 
-        righe(0) = righe(0) + separatore + intestazione
-        For i As Integer = 1 To righe.Count - 1
+        Dim start As Integer = 0
+        If intestazione IsNot Nothing Then
+            start = 1
+            righe(0) = righe(0) + separatore + intestazione
+        End If
+
+        For i As Integer = start To righe.Count - 1
             righe(i) = righe(i) + separatore + valore
         Next
 
@@ -90,11 +96,16 @@ Public Class CSVgest
 
     End Function
 
-    Public Function AggiungiColonna(righe As List(Of String), intestazione As String, valori As List(Of String)) As List(Of String)
+    Public Function AggiungiColonna(righe As List(Of String), valori As List(Of String), Optional intestazione As String = Nothing) As List(Of String)
 
-        righe(0) = righe(0) + separatore + intestazione
-        For i As Integer = 1 To righe.Count - 1
-            righe(i) = righe(i) + separatore + valori(i - 1)
+        Dim start As Integer = 0
+        If intestazione IsNot Nothing Then
+            start = 1
+            righe(0) = righe(0) + separatore + intestazione
+        End If
+
+        For i As Integer = start To righe.Count - 1
+            righe(i) = righe(i) + separatore + valori(i - start)
         Next
 
         Return righe
