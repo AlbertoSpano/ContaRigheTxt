@@ -14,6 +14,8 @@ Public Module Excel
 
             ExcelTextFormat.Delimiter = separatore
 
+            'ExcelTextFormat.Culture = Globalization.CultureInfo.CurrentCulture
+
             Dim worksheet As ExcelWorksheet = ex.Workbook.Worksheets.Add("Foglio 1")
 
             worksheet.Cells("A1").LoadFromText(New IO.FileInfo(sourceCsvPath), ExcelTextFormat, OfficeOpenXml.Table.TableStyles.Light9, True)

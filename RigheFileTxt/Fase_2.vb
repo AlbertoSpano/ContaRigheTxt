@@ -24,6 +24,7 @@ Public Class Fase_2
         txtHyperlink.Text = My.Settings.HyperLink
         numFile.Value = My.Settings.NumFileCsv
         txtParolaCSV.Text = My.Settings.ParolaNomeCsv
+        txtFolderFase2.Text = My.Settings.RootFolderFase2
 
     End Sub
 
@@ -104,15 +105,15 @@ Public Class Fase_2
 
         My.Settings.NumFileCsv = CInt(numFile.Value)
         My.Settings.ParolaNomeCsv = txtParolaCSV.Text
-
         My.Settings.Save()
+
+        Salva()
 
         Dim c As List(Of Colonna) = Colonne.Get
         Dim c1 As List(Of Integer) = c.Select(Function(x) x.colFile1).ToList
         Dim c2 As List(Of Integer) = c.Select(Function(x) x.colFile2).ToList
         Dim content As List(Of String)
         Dim totalContent As List(Of String)
-        Dim i As Integer = 1
 
         Cursor = Cursors.WaitCursor
 
@@ -127,6 +128,7 @@ Public Class Fase_2
                 ' ... estrae le colonne
                 content = New List(Of String)
                 ' ... numero file
+                Dim i As Integer = 1
                 If IO.Path.GetFileName(f).Contains(My.Settings.ParolaNomeCsv) Then
                     i = My.Settings.NumFileCsv
                 Else
@@ -164,6 +166,8 @@ Public Class Fase_2
         Next
 
         Cursor = Cursors.Default
+
+        MsgBox("Terminato")
 
     End Sub
 

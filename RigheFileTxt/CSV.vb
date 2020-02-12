@@ -47,13 +47,15 @@ Public Class CSVgest
 
         Dim s As New List(Of String)
         Dim ch As List(Of Colonna)
-        ch = c.Where(Function(x) x.hyperLink IsNot Nothing).OrderBy(Function(x) x.hyperLink).ToList
+        ch = c.Where(Function(x) x.hyperLink IsNot Nothing).ToList
 
         For i As Integer = startRow To righe.Count - 1
             Dim riga As String() = righe(i).Split(separatore)
             Dim sRiga As String = pattern
             For j As Integer = 0 To ch.Count - 1
-                sRiga = sRiga.Replace("{" + ch(j).hyperLink.ToString + "}", riga(ch(j).colFile1 - 1))
+                Dim r As String = If(index = 1, riga(ch(j).colFile1 - 1), riga(ch(j).colFile2 - 1)).Replace("/", "")
+                Dim marcatore As String = "{" + ch(j).hyperLink.ToString + "}"
+                sRiga = sRiga.Replace(marcatore, r)
             Next
             s.Add(sRiga)
         Next
@@ -71,6 +73,7 @@ Public Class CSVgest
             Dim sRiga As String = String.Empty
             For j As Integer = 0 To cols.Count - 1
                 Dim r As String = If(cols(j) = 0, String.Empty, riga(cols(j) - 1))
+                If IsDate(r) Then r = String.Format("'{0}", r)
                 sRiga += If(sRiga.Length = 0, "", separatore) + r
             Next
             s.Add(sRiga)
