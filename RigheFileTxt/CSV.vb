@@ -11,6 +11,7 @@ Public Class CSVgest
     Private righe As List(Of String)
     Private colonne As String()
 
+
     Public Sub New(fullPath As String, intestazione As Boolean, separatore As Char)
 
         Me.fullPath = fullPath
