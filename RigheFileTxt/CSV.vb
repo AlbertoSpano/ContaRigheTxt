@@ -26,7 +26,7 @@ Public Class CSVgest
         End If
 
         If IO.File.Exists(fullPath) Then
-            righe = IO.File.ReadLines(fullPath).ToList
+            righe = IO.File.ReadLines(fullPath, System.Text.Encoding.GetEncoding("Windows-1252")).ToList
             LeggiIntestazione()
         Else
             errore = True
